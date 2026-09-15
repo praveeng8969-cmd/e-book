@@ -1,0 +1,6 @@
+{
+  "name": "Thermodynamics Visual E-Book & Animated Lab",
+  "description": "An interactive e-book and animated visual laboratory for Engineering Thermodynamics with rich lessons, animated simulations, vector diagrams, and complete handwritten lecture note index.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
