@@ -480,6 +480,27 @@ export const GasMixtureSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">$R_{'{'}mix{'}'} = {rMix}$ kJ/kg·K</div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-indigo-50/70 dark:bg-indigo-500/5 border border-indigo-200 dark:border-indigo-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-indigo-800 dark:text-indigo-300">
+          <span>⚡</span> Quick Revision — Ideal Gas Mixture Laws & Formulas
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Dalton's & Amagat's Laws:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">P = &Sigma; P_i = &Sigma; y_i P (Additive pressures); V = &Sigma; V_i = &Sigma; y_i V (Additive volumes). y_i = n_i / n_mix.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Equivalent Molecular Weight:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">M_mix = &Sigma; y_i M_i = 1 / [&Sigma; (m_i / M_i)]. Gas constant R_mix = R_u / M_mix = &Sigma; m_i R_i.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Mass vs Mole Fraction:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">m_fi = y_i (M_i / M_mix), while y_i = (m_fi / M_i) / [&Sigma; (m_fk / M_k)]. Sum of all fractions = 1.</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

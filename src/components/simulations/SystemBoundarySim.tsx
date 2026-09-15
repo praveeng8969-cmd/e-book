@@ -381,6 +381,27 @@ export const SystemBoundarySim: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Key Takeaway Box */}
+      <div className="bg-emerald-50/70 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+          <span>⚡</span> Quick Revision — System Boundary Classification
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Closed (Control Mass):</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Mass fixed ($\Delta m = 0$), energy crosses boundary ($Q, W \neq 0$). Ex: Piston-cylinder without valves.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Open (Control Volume):</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Both mass and energy cross boundary ($\Delta m \neq 0, \Delta E \neq 0$). Ex: Turbines, nozzles, compressors.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Isolated System:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Neither mass nor energy crosses boundary ($m, Q, W = 0$). Rigid + adiabatic walls. Ex: Universe.</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

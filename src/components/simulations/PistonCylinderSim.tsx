@@ -468,6 +468,17 @@ export const PistonCylinderSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">$nRT$ energy content</div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-sky-50/70 dark:bg-sky-500/5 border border-sky-200 dark:border-sky-500/20 rounded-xl p-3.5">
+        <h5 className="text-xs font-bold text-sky-800 dark:text-sky-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
+        <ul className="text-xs text-sky-900 dark:text-sky-300 space-y-1 leading-relaxed">
+          <li>• <strong>Ideal Gas Law</strong>: PV = nRT — pressure, volume, and temperature are interconnected</li>
+          <li>• Isothermal (T const): P ∝ 1/V hyperbola | Isobaric (P const): V ∝ T | Isochoric (V const): P ∝ T</li>
+          <li>• Work W = ∫P dV — area under the P-V curve (path dependent, NOT a property)</li>
+          <li>• Particle speed ∝ √T — higher temperature means faster molecular motion and higher pressure</li>
+        </ul>
+      </div>
     </div>
   );
 };

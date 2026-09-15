@@ -422,6 +422,27 @@ export const SteadyFlowDevicesSim: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-teal-50/70 dark:bg-teal-500/5 border border-teal-200 dark:border-teal-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-teal-800 dark:text-teal-300">
+          <span>⚡</span> Quick Revision — SFEE for Common Engineering Devices
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Turbine / Compressor:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Adiabatic ($q \approx 0$), $\Delta ke, \Delta pe \approx 0$. Turbine work $w = h_1 - h_2$; Compressor input $w = h_2 - h_1$.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Nozzle / Diffuser:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Work $w = 0$, adiabatic ($q \approx 0$). Nozzle exit velocity $C_2 = \sqrt{C_1^2 + 2(h_1 - h_2)}$. Converts enthalpy to kinetic energy.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Throttling Valve (Isenthalpic):</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">$q=0, w=0, \Delta ke \approx 0 \implies h_1 = h_2$. Flow is highly irreversible; Joule-Thomson coefficient $\mu_{JT} = (\partial T/\partial P)_h$.</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

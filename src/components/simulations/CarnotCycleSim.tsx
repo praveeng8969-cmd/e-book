@@ -221,12 +221,39 @@ export const CarnotCycleSim: React.FC = () => {
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // Node labels on PV
+    // Node labels on PV with state descriptions
     ctx.fillStyle = ct.textMain;
-    ctx.fillText('1', pt1.x - 14, pt1.y - 4);
+    ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('1 (P_max, V_min)', pt1.x - 14, pt1.y - 8);
     ctx.fillText('2', pt2.x + 8, pt2.y - 6);
-    ctx.fillText('3', pt3.x + 8, pt3.y + 8);
+    ctx.fillText('3 (P_min, V_max)', pt3.x - 30, pt3.y + 16);
     ctx.fillText('4', pt4.x - 14, pt4.y + 14);
+
+    // Process type annotations on P-V curves
+    ctx.font = '10px Plus Jakarta Sans, sans-serif';
+    ctx.fillStyle = ct.isLight ? '#b45309' : '#fbbf24';
+    const mid12x = (pt1.x + pt2.x) / 2;
+    const mid12y = (pt1.y + pt2.y) / 2;
+    ctx.fillText('1→2: Isothermal (T=T_H)', mid12x - 30, mid12y - 12);
+    ctx.fillStyle = ct.isLight ? '#0369a1' : '#7dd3fc';
+    const mid23x = (pt2.x + pt3.x) / 2;
+    const mid23y = (pt2.y + pt3.y) / 2;
+    ctx.fillText('2→3: Adiabatic', mid23x + 8, mid23y - 4);
+    ctx.fillStyle = ct.isLight ? '#b45309' : '#fbbf24';
+    const mid34x = (pt3.x + pt4.x) / 2;
+    const mid34y = (pt3.y + pt4.y) / 2;
+    ctx.fillText('3→4: Isothermal (T=T_L)', mid34x - 30, mid34y + 16);
+    ctx.fillStyle = ct.isLight ? '#0369a1' : '#7dd3fc';
+    const mid41x = (pt4.x + pt1.x) / 2;
+    const mid41y = (pt4.y + pt1.y) / 2;
+    ctx.fillText('4→1: Adiabatic', mid41x - 50, mid41y + 4);
+
+    // Work area label
+    const centerX = (pt1.x + pt2.x + pt3.x + pt4.x) / 4;
+    const centerY = (pt1.y + pt2.y + pt3.y + pt4.y) / 4;
+    ctx.fillStyle = ct.isLight ? '#047857' : '#34d399';
+    ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('W_net', centerX - 15, centerY + 3);
 
     // Calculate current tracer point on P-V
     let curPV_x = pt1.x;
@@ -343,6 +370,17 @@ export const CarnotCycleSim: React.FC = () => {
           <div className="text-lg font-bold font-mono text-amber-700 dark:text-amber-400 mt-1">{workNet.toFixed(1)} kJ</div>
           <span className="text-[10px] text-slate-500">Q_in: {heatIn} kJ | Q_out: {heatOut.toFixed(1)} kJ</span>
         </div>
+      </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-emerald-50/70 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-3.5">
+        <h5 className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
+        <ul className="text-xs text-emerald-900 dark:text-emerald-300 space-y-1 leading-relaxed">
+          <li>• Carnot cycle = 2 reversible isothermals + 2 reversible adiabatics (most efficient possible)</li>
+          <li>• T-S diagram is a <strong>rectangle</strong> (unique to Carnot); enclosed area = W_net</li>
+          <li>• η increases by raising T_H or lowering T_L. η = 100% is impossible (needs T_L = 0 K)</li>
+          <li>• COP_HP = 1 + COP_R (Heat Pump is always better than direct electric heating)</li>
+        </ul>
       </div>
 
       {/* Temperature Sliders */}

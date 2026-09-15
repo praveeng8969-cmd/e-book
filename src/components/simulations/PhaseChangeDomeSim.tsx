@@ -237,13 +237,42 @@ export const PhaseChangeDomeSim: React.FC = () => {
     ctx.fillStyle = isLightTheme ? 'rgba(20, 184, 166, 0.08)' : 'rgba(20, 184, 166, 0.12)';
     ctx.fill();
 
-    // Critical Point Marker
+    // Critical Point Marker - Enhanced
     ctx.fillStyle = '#a855f7';
     ctx.beginPath();
-    ctx.arc(critX, critY, 4.5, 0, Math.PI * 2);
+    ctx.arc(critX, critY, 6, 0, Math.PI * 2);
     ctx.fill();
-    ctx.font = 'bold 9px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('Critical Point (374°C)', critX - 45, critY - 8);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('C (374°C, 221.2 bar)', critX + 10, critY - 4);
+    ctx.font = '9px Plus Jakarta Sans, sans-serif';
+    ctx.fillStyle = isLightTheme ? '#7c3aed' : '#c4b5fd';
+    ctx.fillText('h_fg = 0 at C', critX + 10, critY + 10);
+
+    // Region Labels on the T-v Chart
+    ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+    // Subcooled Liquid region (left of dome)
+    ctx.fillStyle = isLightTheme ? '#0369a1' : '#7dd3fc';
+    ctx.fillText('SUBCOOLED', toX(0.0012), toY(200));
+    ctx.fillText('LIQUID', toX(0.0012), toY(180));
+    // Wet Mixture region (under dome)
+    ctx.fillStyle = isLightTheme ? '#0d9488' : '#5eead4';
+    ctx.fillText('WET MIXTURE', toX(0.01), toY(180));
+    ctx.font = '9px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('(0 < x < 1)', toX(0.012), toY(160));
+    // Superheated Vapor region (right of dome)
+    ctx.fillStyle = isLightTheme ? '#c2410c' : '#fdba74';
+    ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('SUPERHEATED', toX(0.25), toY(320));
+    ctx.fillText('VAPOR', toX(0.30), toY(300));
+    // Saturated liquid and vapor curve labels
+    ctx.font = '9px Plus Jakarta Sans, sans-serif';
+    ctx.fillStyle = isLightTheme ? '#115e59' : '#99f6e4';
+    ctx.fillText('f-line (x=0)', toX(0.0008), toY(120));
+    ctx.fillText('g-line (x=1)', toX(0.4), toY(120));
 
     // Draw Isobaric Line (Constant Pressure Line)
     ctx.strokeStyle = isLightTheme ? '#f59e0b' : '#fbbf24';
@@ -434,6 +463,17 @@ export const PhaseChangeDomeSim: React.FC = () => {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-teal-50/70 dark:bg-teal-500/5 border border-teal-200 dark:border-teal-500/20 rounded-xl p-3.5">
+        <h5 className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
+        <ul className="text-xs text-teal-900 dark:text-teal-300 space-y-1 leading-relaxed">
+          <li>• During boiling (wet region), both T and P remain <strong>constant</strong> — all heat goes into latent heat h_fg</li>
+          <li>• Quality x = m_vapor / m_total. Use x to interpolate: v = v_f + x·v_fg, h = h_f + x·h_fg</li>
+          <li>• At the <strong>Critical Point</strong> (374°C, 221.2 bar): h_fg = 0, liquid transforms directly to vapor</li>
+          <li>• <strong>State ID</strong>: Compare T with T_sat (or v with v_f, v_g) to identify subcooled / wet / superheated</li>
+        </ul>
       </div>
     </div>
   );

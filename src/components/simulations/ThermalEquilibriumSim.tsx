@@ -507,6 +507,27 @@ export const ThermalEquilibriumSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">$C_B = m_B c_B$</div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-sky-50/70 dark:bg-sky-500/5 border border-sky-200 dark:border-sky-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-sky-800 dark:text-sky-300">
+          <span>⚡</span> Quick Revision — Zeroth Law & Thermal Equilibrium
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-sky-100 dark:border-sky-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Zeroth Law Statement:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">If bodies A and B are in thermal equilibrium with C separately, then A and B are in thermal equilibrium with each other.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-sky-100 dark:border-sky-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Thermometry Principle:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Body C acts as the thermometer. Temperature is the unique property whose equality defines thermal equilibrium.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-sky-100 dark:border-sky-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Equilibrium Temperature:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">T_f = (m_A c_A T_A + m_B c_B T_B) / (m_A c_A + m_B c_B). Heat gained equals heat lost in an isolated enclosure.</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

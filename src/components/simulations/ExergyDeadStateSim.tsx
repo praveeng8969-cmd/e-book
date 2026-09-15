@@ -283,6 +283,27 @@ export const ExergyDeadStateSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">$T_0 = {tempDeadState}$ K</div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-amber-50/70 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300">
+          <span>⚡</span> Quick Revision — Exergy & Availability
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Dead State ($T_0, P_0$):</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">When system reaches complete thermodynamic equilibrium with surroundings, Exergy = 0. No work can be extracted.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Heat Transfer Exergy:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">X_Q = Q (1 - T_0 / T) = W_max. Anergy UAE = Q - X_Q = T_0 &Delta;S.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Gouy-Stodola Theorem:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Exergy destruction $I = T_0 S_{gen} \ge 0$. Exergy is always consumed/destroyed in real irreversible processes.</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

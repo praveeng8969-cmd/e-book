@@ -377,6 +377,17 @@ export const EntropyGenerationSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at $T_L$</div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-amber-50/70 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3.5">
+        <h5 className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
+        <ul className="text-xs text-amber-900 dark:text-amber-300 space-y-1 leading-relaxed">
+          <li>• ΔS_universe = ΔS_system + ΔS_surroundings ≥ 0 (Clausius Inequality for irreversible processes)</li>
+          <li>• Larger ΔT between reservoirs → more entropy generated → more exergy destroyed</li>
+          <li>• <strong>Gouy-Stodola Theorem</strong>: Lost work (Irreversibility) I = T₀ · S_gen — directly proportional to entropy generated</li>
+          <li>• To minimize irreversibility: reduce ΔT in heat exchangers, avoid friction, prevent unrestrained expansion</li>
+        </ul>
+      </div>
     </div>
   );
 };

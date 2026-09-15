@@ -379,6 +379,27 @@ export const JouleThomsonSim: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Key Takeaway Box */}
+      <div className="bg-cyan-50/70 dark:bg-cyan-500/5 border border-cyan-200 dark:border-cyan-500/20 rounded-xl p-3.5 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-cyan-800 dark:text-cyan-300">
+          <span>⚡</span> Quick Revision — Joule-Thomson Effect & Inversion Curve
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Definition of &mu;_JT:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">&mu;_JT = (&part;T/&part;P)_h = (1/C_p) [T(&part;v/&part;T)_P - v]. Slope of isenthalpic curves on T-P plot.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Cooling vs Heating:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">&mu;_JT &gt; 0 causes cooling during throttling expansion (dP &lt; 0 &rarr; dT &lt; 0). &mu;_JT &lt; 0 causes heating. On the inversion curve, &mu;_JT = 0.</div>
+          </div>
+          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
+            <span className="font-bold text-slate-900 dark:text-slate-100">Ideal Gas Case:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">For an ideal gas, Pv = RT, (&part;v/&part;T)_P = R/P = v/T, which gives &mu;_JT = 0 everywhere (no temperature change during throttling).</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -423,33 +423,47 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
       simComponent = <SystemBoundarySim />;
     }
 
-    // Chapter 2: Zeroth Law -> Thermal Equilibrium Lab (in 2.1)
+    // Chapter 2: Zeroth Law -> Thermal Equilibrium Lab (in 2.1), Thermal Equilibrium (in 2.3), Piston-Cylinder for Gas Laws (in 2.4)
     else if (chapterId === 2 && (sectionId === '2-1-zeroth-law-statement' || sectionId.includes('2-1'))) {
       simComponent = <ThermalEquilibriumSim />;
+    } else if (chapterId === 2 && (sectionId === '2-3-temperature-scales' || sectionId.includes('2-3'))) {
+      simComponent = <ThermalEquilibriumSim />;
+    } else if (chapterId === 2 && (sectionId === '2-4-gas-laws' || sectionId.includes('2-4'))) {
+      simComponent = <PistonCylinderSim />;
     }
 
-    // Chapter 3: First Law -> Energy Balance Visualizer (in 3.3) & P-V Work (in 3.2) & SFEE (in 3.4)
-    else if (chapterId === 3 && (sectionId === '3-3-first-law-closed-systems' || sectionId.includes('3-3'))) {
-      simComponent = <EnergyBalanceSim />;
+    // Chapter 3: First Law -> Piston-Cylinder for Work concept (in 3.1), P-V Work (in 3.2), Energy Balance (in 3.3), SFEE (in 3.4)
+    else if (chapterId === 3 && (sectionId === '3-1-work-definition' || sectionId.includes('3-1'))) {
+      simComponent = <PistonCylinderSim />;
     } else if (chapterId === 3 && (sectionId === '3-2-closed-system-work' || sectionId.includes('3-2'))) {
       simComponent = <PVDomainSim />;
+    } else if (chapterId === 3 && (sectionId === '3-3-first-law-closed-systems' || sectionId.includes('3-3'))) {
+      simComponent = <EnergyBalanceSim />;
     } else if (chapterId === 3 && (sectionId === '3-4-sfee-open-systems' || sectionId.includes('3-4'))) {
       simComponent = <SteadyFlowDevicesSim />;
     }
 
-    // Chapter 4: Second Law -> Carnot Cycle Simulator (in 4.2)
-    else if (chapterId === 4 && (sectionId === '4-2-carnot-cycle-and-theorem' || sectionId.includes('4-2'))) {
+    // Chapter 4: Second Law -> Carnot Cycle for context (in 4.1), Carnot Cycle Simulator (in 4.2)
+    else if (chapterId === 4 && (sectionId === '4-1-need-and-statements' || sectionId.includes('4-1'))) {
+      simComponent = <CarnotCycleSim />;
+    } else if (chapterId === 4 && (sectionId === '4-2-carnot-cycle-and-theorem' || sectionId.includes('4-2'))) {
       simComponent = <CarnotCycleSim />;
     }
 
-    // Chapter 5: Entropy -> Entropy Generation (Irreversibility) Lab (in 5.2)
+    // Chapter 5: Entropy -> Entropy Generation Lab (in 5.2), Entropy Generation for Tds context (in 5.3)
     else if (chapterId === 5 && (sectionId === '5-2-increase-of-entropy' || sectionId.includes('5-2'))) {
+      simComponent = <EntropyGenerationSim />;
+    } else if (chapterId === 5 && (sectionId === '5-3-tds-equations' || sectionId.includes('5-3'))) {
       simComponent = <EntropyGenerationSim />;
     }
 
-    // Chapter 6: Exergy -> Exergy & Dead State Visualizer (in 6.1)
+    // Chapter 6: Exergy -> Exergy & Dead State Visualizer (in 6.1), Exergy for Availability (in 6.2), Entropy Gen for Gouy-Stodola (in 6.3)
     else if (chapterId === 6 && (sectionId === '6-1-available-unavailable-energy' || sectionId.includes('6-1'))) {
       simComponent = <ExergyDeadStateSim />;
+    } else if (chapterId === 6 && (sectionId === '6-2-availability-functions' || sectionId.includes('6-2'))) {
+      simComponent = <ExergyDeadStateSim />;
+    } else if (chapterId === 6 && (sectionId === '6-3-gouy-stodola-theorem' || sectionId.includes('6-3'))) {
+      simComponent = <EntropyGenerationSim />;
     }
 
     // Chapter 7: Gas Mixtures -> Dalton's Law Chamber (in 7.1)
