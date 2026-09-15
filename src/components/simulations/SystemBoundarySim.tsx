@@ -196,7 +196,10 @@ export const SystemBoundarySim: React.FC = () => {
         ctx.stroke();
         ctx.fillStyle = heatColor;
         ctx.font = 'bold 12px Plus Jakarta Sans, sans-serif';
-        ctx.fillText('Heat Supply (Q > 0)', width / 2 + 10, flameY + 10);
+        ctx.textAlign = 'center';
+        // Sits clear of the flame row, whose discs reach flameY + 8
+        ctx.fillText('Heat Supply (Q > 0)', width / 2, flameY + 26);
+        ctx.textAlign = 'left';
       }
 
       // Update & Draw Particles
@@ -390,15 +393,15 @@ export const SystemBoundarySim: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Closed (Control Mass):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Mass fixed ($\Delta m = 0$), energy crosses boundary ($Q, W \neq 0$). Ex: Piston-cylinder without valves.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Mass fixed (<MathView math="\Delta m = 0" />), energy crosses boundary (<MathView math="Q, W \neq 0" />). Ex: Piston-cylinder without valves.</div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Open (Control Volume):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Both mass and energy cross boundary ($\Delta m \neq 0, \Delta E \neq 0$). Ex: Turbines, nozzles, compressors.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Both mass and energy cross boundary (<MathView math="\Delta m \neq 0, \Delta E \neq 0" />). Ex: Turbines, nozzles, compressors.</div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Isolated System:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Neither mass nor energy crosses boundary ($m, Q, W = 0$). Rigid + adiabatic walls. Ex: Universe.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Neither mass nor energy crosses boundary (<MathView math="m, Q, W = 0" />). Rigid + adiabatic walls. Ex: Universe.</div>
           </div>
         </div>
       </div>

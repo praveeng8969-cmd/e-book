@@ -431,15 +431,21 @@ export const SteadyFlowDevicesSim: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Turbine / Compressor:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Adiabatic ($q \approx 0$), $\Delta ke, \Delta pe \approx 0$. Turbine work $w = h_1 - h_2$; Compressor input $w = h_2 - h_1$.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              Adiabatic (<MathView math="q \approx 0" />), <MathView math="\Delta ke, \Delta pe \approx 0" />. Turbine work <MathView math="w = h_1 - h_2" />; compressor input <MathView math="w = h_2 - h_1" />.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Nozzle / Diffuser:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Work $w = 0$, adiabatic ($q \approx 0$). Nozzle exit velocity $C_2 = \sqrt{C_1^2 + 2(h_1 - h_2)}$. Converts enthalpy to kinetic energy.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              Work <MathView math="w = 0" />, adiabatic (<MathView math="q \approx 0" />). Exit velocity <MathView math="C_2 = \sqrt{C_1^2 + 2(h_1 - h_2)}" />. Converts enthalpy into kinetic energy.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-teal-100 dark:border-teal-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Throttling Valve (Isenthalpic):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">$q=0, w=0, \Delta ke \approx 0 \implies h_1 = h_2$. Flow is highly irreversible; Joule-Thomson coefficient $\mu_{JT} = (\partial T/\partial P)_h$.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="q = 0, w = 0, \Delta ke \approx 0 \implies h_1 = h_2" />. Flow is highly irreversible; Joule-Thomson coefficient <MathView math="\mu_{JT} = (\partial T/\partial P)_h" />.
+            </div>
           </div>
         </div>
       </div>

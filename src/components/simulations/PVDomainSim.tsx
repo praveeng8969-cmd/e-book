@@ -354,17 +354,17 @@ export const PVDomainSim: React.FC = () => {
         <div className="bg-slate-50 dark:bg-slate-950/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5">
           <span className="text-xs text-slate-600 dark:text-slate-400 font-bold flex items-center gap-1.5">
             <Sliders className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400" />
-            Slope Comparison ($|dP/dV|$)
+            Slope Comparison (<MathView math="|dP/dV|" />)
           </span>
           <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1 font-medium">
             <div className="flex justify-between">
-              <span>Isochoric ($k=\infty$):</span> <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">Vertical (∞)</span>
+              <span>Isochoric (<MathView math="k=\infty" />):</span> <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">Vertical (∞)</span>
             </div>
             <div className="flex justify-between">
-              <span>Adiabatic ($k=\gamma$):</span> <span className="font-mono text-orange-600 dark:text-orange-400 font-bold">Steeper (γ × Isothermal)</span>
+              <span>Adiabatic (<MathView math="k=\gamma" />):</span> <span className="font-mono text-orange-600 dark:text-orange-400 font-bold">Steeper (γ × Isothermal)</span>
             </div>
             <div className="flex justify-between">
-              <span>Isobaric ($k=0$):</span> <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">Horizontal (0)</span>
+              <span>Isobaric (<MathView math="k=0" />):</span> <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">Horizontal (0)</span>
             </div>
           </div>
         </div>

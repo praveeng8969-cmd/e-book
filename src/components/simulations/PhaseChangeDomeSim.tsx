@@ -330,7 +330,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              Water Phase Dome Lab: $T-v$ Diagram & Vapor Quality ($x$)
+              Water Phase Dome Lab: <MathView math="T-v" /> Diagram & Vapor Quality (<MathView math="x" />)
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Interactive draggable state point: Subcooled Liquid, Saturated Mixture (0 &lt; x &lt; 1), and Superheated Vapor.
@@ -366,7 +366,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
           }}
           onMouseUp={() => setIsDragging(false)}
           onMouseLeave={() => setIsDragging(false)}
-          className="w-full max-w-[680px] h-[320px] rounded-xl shadow-inner cursor-crosshair"
+          className="w-full max-w-[680px] h-auto rounded-xl shadow-inner cursor-crosshair"
         />
       </div>
 
@@ -375,9 +375,9 @@ export const PhaseChangeDomeSim: React.FC = () => {
         {/* Pressure Slider */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-amber-600 dark:text-amber-400">Pressure ($P$)</span>
+            <span className="font-semibold text-amber-600 dark:text-amber-400">Pressure (<MathView math="P" />)</span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">
-              {pressureBar} bar ($T_{'{'}sat{'}'} = {tSatC}°C$)
+              {pressureBar} bar (<MathView math="T_{sat}" /> = {tSatC}°C)
             </span>
           </div>
           <input
@@ -398,7 +398,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
         {/* Temperature Slider */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-rose-600 dark:text-rose-400">Temperature ($T$)</span>
+            <span className="font-semibold text-rose-600 dark:text-rose-400">Temperature (<MathView math="T" />)</span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{tempC} °C</span>
           </div>
           <input
@@ -419,7 +419,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
         {/* Specific Volume Slider */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-teal-600 dark:text-teal-400">Specific Volume ($v$)</span>
+            <span className="font-semibold text-teal-600 dark:text-teal-400">Specific Volume (<MathView math="v" />)</span>
             <span className="font-mono font-bold text-teal-600 dark:text-teal-400">{specVol.toFixed(4)} m³/kg</span>
           </div>
           <input
@@ -451,13 +451,13 @@ export const PhaseChangeDomeSim: React.FC = () => {
 
         <div className="flex items-center gap-4 text-xs font-mono">
           <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-slate-600 dark:text-slate-400">Dryness Fraction $x$: </span>
+            <span className="text-slate-600 dark:text-slate-400">Dryness Fraction <MathView math="x" />: </span>
             <span className="font-bold text-teal-600 dark:text-teal-400">
               {qualityX !== null ? qualityX : 'N/A'}
             </span>
           </div>
           <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-slate-600 dark:text-slate-400">Enthalpy $h$: </span>
+            <span className="text-slate-600 dark:text-slate-400">Enthalpy <MathView math="h" />: </span>
             <span className="font-bold text-slate-800 dark:text-slate-200">
               {(4.187 * tempC + (qualityX || 0) * 2200).toFixed(1)} kJ/kg
             </span>

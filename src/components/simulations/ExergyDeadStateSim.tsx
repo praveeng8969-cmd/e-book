@@ -55,7 +55,7 @@ export const ExergyDeadStateSim: React.FC = () => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              Exergy & Dead State ($T_0$) Visualizer: Available vs Unavailable Energy
+              Exergy & Dead State (<MathView math="T_0" />) Visualizer: Available vs Unavailable Energy
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Total Energy split: Energy (Q) = Exergy (Available Work) + Anergy (Unavailable Energy).
@@ -126,7 +126,7 @@ export const ExergyDeadStateSim: React.FC = () => {
 
             {/* Ambient Reservoir Tag */}
             <text x="310" y="232" textAnchor="middle" fill={isDark ? '#94a3b8' : '#64748b'} fontSize="10">
-              Sink @ Dead State ($T_0 = {tempDeadState}$ K)
+              Sink @ Dead State (T₀ = {tempDeadState} K)
             </text>
           </svg>
         </div>
@@ -139,7 +139,7 @@ export const ExergyDeadStateSim: React.FC = () => {
               <span>Available vs Unavailable Work Split</span>
             </h4>
             <span className="text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400">
-              Carnot $\eta_{'{'}max{'}'}$ = {(carnotFactor * 100).toFixed(1)}%
+              Carnot <MathView math="\eta_{max}" /> = {(carnotFactor * 100).toFixed(1)}%
             </span>
           </div>
 
@@ -186,7 +186,7 @@ export const ExergyDeadStateSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-rose-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5" /> Source Temperature ($T$)
+              <Flame className="w-3.5 h-3.5" /> Source Temperature (<MathView math="T" />)
             </span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{tempSource} K</span>
           </div>
@@ -209,7 +209,7 @@ export const ExergyDeadStateSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-teal-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-teal-600 dark:text-teal-400 flex items-center gap-1">
-              <Wind className="w-3.5 h-3.5" /> Dead State Ambient ($T_0$)
+              <Wind className="w-3.5 h-3.5" /> Dead State Ambient (<MathView math="T_0" />)
             </span>
             <span className="font-mono font-bold text-teal-600 dark:text-teal-400">{tempDeadState} K</span>
           </div>
@@ -232,7 +232,7 @@ export const ExergyDeadStateSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-amber-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" /> Heat Input ($Q$)
+              <Sparkles className="w-3.5 h-3.5" /> Heat Input (<MathView math="Q" />)
             </span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{totalHeatQ} kJ</span>
           </div>
@@ -259,14 +259,14 @@ export const ExergyDeadStateSim: React.FC = () => {
           <div className="text-base font-bold font-mono text-emerald-600 dark:text-emerald-400">
             {exergyKJ} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$X = Q(1 - T_0/T)$ ({exergyPercent}%)</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="X = Q(1 - T_0/T)" /> ({exergyPercent}%)</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Anergy (Unavailable Energy)</div>
           <div className="text-base font-bold font-mono text-slate-600 dark:text-slate-400">
             {anergyKJ} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$UE = Q(T_0/T)$ ({anergyPercent}%)</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="UE = Q(T_0/T)" /> ({anergyPercent}%)</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Quality of Energy</div>
@@ -278,9 +278,9 @@ export const ExergyDeadStateSim: React.FC = () => {
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Dead State Status</div>
           <div className="text-xs font-bold text-slate-900 dark:text-white">
-            {tempSource === tempDeadState ? 'At Dead State (X = 0)' : 'Non-Equilibrium ($X > 0$)'}
+            {tempSource === tempDeadState ? 'At Dead State (X = 0)' : 'Non-Equilibrium (X > 0)'}
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$T_0 = {tempDeadState}$ K</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="T_0" /> = {tempDeadState} K</div>
         </div>
       </div>
 
@@ -291,16 +291,20 @@ export const ExergyDeadStateSim: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Dead State ($T_0, P_0$):</span>
+            <span className="font-bold text-slate-900 dark:text-slate-100">Dead State (<MathView math="T_0, P_0" />):</span>
             <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">When system reaches complete thermodynamic equilibrium with surroundings, Exergy = 0. No work can be extracted.</div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Heat Transfer Exergy:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">X_Q = Q (1 - T_0 / T) = W_max. Anergy UAE = Q - X_Q = T_0 &Delta;S.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="X_Q = Q(1 - T_0/T) = W_{max}" />. Anergy <MathView math="UAE = Q - X_Q = T_0 \Delta S" />.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Gouy-Stodola Theorem:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Exergy destruction $I = T_0 S_{gen} \ge 0$. Exergy is always consumed/destroyed in real irreversible processes.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              Exergy destruction <MathView math="I = T_0 S_{gen} \ge 0" />. Exergy is always consumed in real irreversible processes.
+            </div>
           </div>
         </div>
       </div>

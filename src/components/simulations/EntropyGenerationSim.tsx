@@ -179,7 +179,7 @@ export const EntropyGenerationSim: React.FC = () => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              Entropy Generation ($\Delta S_{'{'}univ{'}'} = S_{'{'}gen{'}'}$) & Irreversibility Lab
+              Entropy Generation (<MathView math="\Delta S_{univ} = S_{gen}" />) & Irreversibility Lab
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Spontaneous heat transfer across finite temperature difference &Delta;T generating entropy (S_gen &gt; 0).
@@ -209,7 +209,7 @@ export const EntropyGenerationSim: React.FC = () => {
             ref={canvasRef}
             width={340}
             height={250}
-            className="w-full max-w-[340px] h-[250px] rounded-xl shadow-inner"
+            className="w-full max-w-[340px] h-auto rounded-xl shadow-inner"
           />
         </div>
 
@@ -218,10 +218,10 @@ export const EntropyGenerationSim: React.FC = () => {
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5 text-teal-500" />
-              <span>Entropy Generated $S_{'{'}gen{'}'}$ vs Temperature Difference $\Delta T$</span>
+              <span>Entropy Generated <MathView math="S_{gen}" /> vs Temperature Difference <MathView math="\Delta T" /></span>
             </h4>
             <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400">
-              $\Delta T = {deltaT}$ K → $S_{'{'}gen{'}'} = {entropyGenerated.toFixed(4)}$ kJ/K
+              <MathView math="\Delta T" /> = {deltaT} K → <MathView math="S_{gen}" /> = {entropyGenerated.toFixed(4)} kJ/K
             </span>
           </div>
 
@@ -280,7 +280,7 @@ export const EntropyGenerationSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-rose-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5" /> Source Temp ($T_H$)
+              <Flame className="w-3.5 h-3.5" /> Source Temp (<MathView math="T_H" />)
             </span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{tempSource} K</span>
           </div>
@@ -303,7 +303,7 @@ export const EntropyGenerationSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-cyan-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-1">
-              <Snowflake className="w-3.5 h-3.5" /> Sink Temp ($T_L$)
+              <Snowflake className="w-3.5 h-3.5" /> Sink Temp (<MathView math="T_L" />)
             </span>
             <span className="font-mono font-bold text-cyan-600 dark:text-cyan-400">{tempSink} K</span>
           </div>
@@ -326,7 +326,7 @@ export const EntropyGenerationSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-amber-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5" /> Heat Flow ($Q$)
+              <Zap className="w-3.5 h-3.5" /> Heat Flow (<MathView math="Q" />)
             </span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{heatAmount} kJ</span>
           </div>
@@ -353,28 +353,28 @@ export const EntropyGenerationSim: React.FC = () => {
           <div className="text-base font-bold font-mono text-amber-600 dark:text-amber-400">
             {entropyGenerated.toFixed(4)} kJ/K
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$S_{'{'}gen{'}'} = Q(1/T_L - 1/T_H)$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="S_{gen} = Q(1/T_L - 1/T_H)" /></div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Exergy Destroyed ($I$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Exergy Destroyed (<MathView math="I" />)</div>
           <div className="text-base font-bold font-mono text-rose-600 dark:text-rose-400">
             {exergyDestroyed.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">Gouy-Stodola: $I = T_0 S_{'{'}gen{'}'}$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400">Gouy-Stodola: <MathView math="I = T_0 S_{gen}" /></div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Initial Avail. Energy</div>
           <div className="text-base font-bold font-mono text-teal-600 dark:text-teal-400">
             {ae_initial.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at $T_H$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at <MathView math="T_H" /></div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Final Avail. Energy</div>
           <div className="text-base font-bold font-mono text-cyan-600 dark:text-cyan-400">
             {ae_final.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at $T_L$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at <MathView math="T_L" /></div>
         </div>
       </div>
 

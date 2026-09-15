@@ -164,14 +164,17 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
       // Label Block A
       ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      const centerAX = blockAX + blockWidth / 2;
       ctx.font = 'bold 12px Plus Jakarta Sans, sans-serif';
-      ctx.fillText('SYSTEM A', blockAX + 18, blockY + 30);
+      ctx.fillText('SYSTEM A', centerAX, blockY + 30);
       ctx.font = '10px Plus Jakarta Sans, sans-serif';
-      ctx.fillText(`${MATERIALS[matA].name}`, blockAX + 12, blockY + 50);
+      ctx.fillText(`${MATERIALS[matA].name}`, centerAX, blockY + 50);
       ctx.font = 'bold 14px Fira Code, monospace';
-      ctx.fillText(`${currentTempA}°C`, blockAX + 25, blockY + 85);
+      ctx.fillText(`${currentTempA}°C`, centerAX, blockY + 85);
       ctx.font = '10px Fira Code, monospace';
-      ctx.fillText(`${massA} kg`, blockAX + 35, blockY + 105);
+      ctx.fillText(`${massA} kg`, centerAX, blockY + 105);
+      ctx.textAlign = 'left';
 
       // 2. Draw Block B (Right)
       ctx.fillStyle = colorB;
@@ -180,14 +183,17 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
       // Label Block B
       ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      const centerBX = blockBX + blockWidth / 2;
       ctx.font = 'bold 12px Plus Jakarta Sans, sans-serif';
-      ctx.fillText('SYSTEM B', blockBX + 18, blockY + 30);
+      ctx.fillText('SYSTEM B', centerBX, blockY + 30);
       ctx.font = '10px Plus Jakarta Sans, sans-serif';
-      ctx.fillText(`${MATERIALS[matB].name}`, blockBX + 12, blockY + 50);
+      ctx.fillText(`${MATERIALS[matB].name}`, centerBX, blockY + 50);
       ctx.font = 'bold 14px Fira Code, monospace';
-      ctx.fillText(`${currentTempB}°C`, blockBX + 25, blockY + 85);
+      ctx.fillText(`${currentTempB}°C`, centerBX, blockY + 85);
       ctx.font = '10px Fira Code, monospace';
-      ctx.fillText(`${massB} kg`, blockBX + 35, blockY + 105);
+      ctx.fillText(`${massB} kg`, centerBX, blockY + 105);
+      ctx.textAlign = 'left';
 
       // 3. Draw Thermal Contact Conductor / Flux
       if (isConnected) {
@@ -219,30 +225,34 @@ export const ThermalEquilibriumSim: React.FC = () => {
         ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
         ctx.fillText('HEAT FLUX Q →', bridgeX + 4, bridgeY - 8);
       } else {
-        // Draw Diathermal barrier disconnected
+        // Draw Diathermal barrier disconnected, centred in the gap between the blocks
         ctx.fillStyle = isLightTheme ? '#94a3b8' : '#475569';
         ctx.font = 'italic 11px Plus Jakarta Sans, sans-serif';
-        ctx.fillText('Isolated (Adiabatic Wall)', width / 2 - 60, blockY + blockHeight / 2);
+        ctx.textAlign = 'center';
+        ctx.fillText('Isolated (Adiabatic Wall)', width / 2, blockY + blockHeight + 22);
+        ctx.textAlign = 'left';
       }
 
       // 4. Draw Zeroth Law Thermometer (System C) Probe at bottom
       const probeY = height - 35;
+      const isEquil = Math.abs(currentTempA - currentTempB) < 0.5;
+      const probeLabel = isEquil
+        ? `System C: T_A = T_B = ${equilibriumTemp}°C (Equilibrium Reached)`
+        : `Zeroth Law Probe: T_A ≠ T_B until equilibrium`;
+
+      ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
+      // Box is sized to the label so long readouts never spill past its border
+      const probeW = Math.min(width - 20, ctx.measureText(probeLabel).width + 24);
       ctx.fillStyle = isLightTheme ? '#e2e8f0' : '#1e293b';
-      ctx.fillRect(width / 2 - 120, probeY - 10, 240, 26);
+      ctx.fillRect(width / 2 - probeW / 2, probeY - 10, probeW, 26);
       ctx.strokeStyle = '#14b8a6';
       ctx.lineWidth = 1.5;
-      ctx.strokeRect(width / 2 - 120, probeY - 10, 240, 26);
+      ctx.strokeRect(width / 2 - probeW / 2, probeY - 10, probeW, 26);
 
       ctx.fillStyle = isLightTheme ? '#0d9488' : '#2dd4bf';
-      ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
-      const isEquil = Math.abs(currentTempA - currentTempB) < 0.5;
-      ctx.fillText(
-        isEquil
-          ? `System C (Thermometer): T_A = T_B = ${equilibriumTemp}°C (Equilibrium Reached)`
-          : `Zeroth Law Probe: T_A ≠ T_B (Heat transfers until T_A = T_B)`,
-        width / 2 - 110,
-        probeY + 6
-      );
+      ctx.textAlign = 'center';
+      ctx.fillText(probeLabel, width / 2, probeY + 6);
+      ctx.textAlign = 'left';
 
       if (isConnected && contactProgress < 1.5) {
         animId = requestAnimationFrame(render);
@@ -275,7 +285,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
               Zeroth Law Thermal Equilibrium Lab
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Two isolated bodies exchanging thermal energy until reaching calculated equilibrium state $T_A = T_B$.
+              Two isolated bodies exchanging thermal energy until reaching calculated equilibrium state <MathView math="T_A = T_B" />.
             </p>
           </div>
         </div>
@@ -310,7 +320,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
             ref={canvasRef}
             width={380}
             height={260}
-            className="w-full max-w-[380px] h-[260px] rounded-xl shadow-inner"
+            className="w-full max-w-[380px] h-auto rounded-xl shadow-inner"
           />
           <div className="flex items-center justify-between w-full mt-2 px-2 text-[11px] font-mono text-slate-600 dark:text-slate-400">
             <span>Block A: {currentTempA}°C</span>
@@ -326,10 +336,10 @@ export const ThermalEquilibriumSim: React.FC = () => {
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5 text-teal-500" />
-              <span>Temperature Equilibrium Curve $T(t)$</span>
+              <span>Temperature Equilibrium Curve <MathView math="T(t)" /></span>
             </h4>
             <span className="text-[11px] font-mono font-bold text-teal-600 dark:text-teal-400">
-              $T_{'{'}eq{'}'}$ = {equilibriumTemp} °C
+              <MathView math="T_{eq}" /> = {equilibriumTemp} °C
             </span>
           </div>
 
@@ -392,7 +402,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Initial Temperature ($T_A$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Initial Temperature (<MathView math="T_A" />)</span>
               <span className="font-mono font-bold text-rose-600">{tempA} °C</span>
             </div>
             <input
@@ -409,7 +419,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Mass ($m_A$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Mass (<MathView math="m_A" />)</span>
               <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{massA} kg</span>
             </div>
             <input
@@ -446,7 +456,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Initial Temperature ($T_B$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Initial Temperature (<MathView math="T_B" />)</span>
               <span className="font-mono font-bold text-cyan-600">{tempB} °C</span>
             </div>
             <input
@@ -463,7 +473,7 @@ export const ThermalEquilibriumSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Mass ($m_B$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Mass (<MathView math="m_B" />)</span>
               <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{massB} kg</span>
             </div>
             <input
@@ -483,12 +493,12 @@ export const ThermalEquilibriumSim: React.FC = () => {
       {/* Readout Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Equilibrium $T_f$</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Equilibrium <MathView math="T_f" /></div>
           <div className="text-base font-bold font-mono text-teal-600 dark:text-teal-400">{equilibriumTemp} °C</div>
           <div className="text-[10px] text-slate-600 dark:text-slate-400">{(equilibriumTemp + 273.15).toFixed(1)} K</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Heat Exchanged ($Q$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Heat Exchanged (<MathView math="Q" />)</div>
           <div className="text-base font-bold font-mono text-rose-600 dark:text-rose-400">{heatTransferredKJ} kJ</div>
           <div className="text-[10px] text-slate-600 dark:text-slate-400">A → B transfer</div>
         </div>
@@ -497,14 +507,14 @@ export const ThermalEquilibriumSim: React.FC = () => {
           <div className="text-base font-bold font-mono text-slate-800 dark:text-slate-200">
             {(massA * cA).toFixed(2)} kJ/K
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$C_A = m_A c_A$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="C_A = m_A c_A" /></div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Block B Heat Capacity</div>
           <div className="text-base font-bold font-mono text-slate-800 dark:text-slate-200">
             {(massB * cB).toFixed(2)} kJ/K
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$C_B = m_B c_B$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="C_B = m_B c_B" /></div>
         </div>
       </div>
 

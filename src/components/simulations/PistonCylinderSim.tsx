@@ -236,10 +236,10 @@ export const PistonCylinderSim: React.FC = () => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              Piston-Cylinder Movable Boundary Simulator ($PV = nRT$)
+              Piston-Cylinder Movable Boundary Simulator (<MathView math="PV = nRT" />)
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Interactive displacement work $W = \int P dV$ with live-updating Ideal Gas $P-V$ diagram.
+              Interactive displacement work <MathView math="W = \int P dV" /> with live-updating Ideal Gas <MathView math="P-V" /> diagram.
             </p>
           </div>
         </div>
@@ -298,11 +298,11 @@ export const PistonCylinderSim: React.FC = () => {
             ref={canvasRef}
             width={320}
             height={280}
-            className="w-full max-w-[320px] h-[280px] rounded-xl shadow-inner"
+            className="w-full max-w-[320px] h-auto rounded-xl shadow-inner"
           />
           <div className="flex items-center justify-between w-full mt-3 px-2 text-[11px] font-mono text-slate-600 dark:text-slate-400">
-            <span>Rigid Bottom ($W=0$)</span>
-            <span className="text-teal-600 dark:text-teal-400 font-bold">Movable Top ($dV \ne 0$)</span>
+            <span>Rigid Bottom (<MathView math="W=0" />)</span>
+            <span className="text-teal-600 dark:text-teal-400 font-bold">Movable Top (<MathView math="dV \ne 0" />)</span>
           </div>
         </div>
 
@@ -374,7 +374,7 @@ export const PistonCylinderSim: React.FC = () => {
         {/* Slider 1: Volume */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">Volume ($V$)</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-300">Volume (<MathView math="V" />)</span>
             <span className="font-mono font-bold text-teal-600 dark:text-teal-400">
               {(volume * 1000).toFixed(1)} L ({volume.toFixed(3)} m³)
             </span>
@@ -398,7 +398,7 @@ export const PistonCylinderSim: React.FC = () => {
         {/* Slider 2: Temperature */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">Temperature ($T$)</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-300">Temperature (<MathView math="T" />)</span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">
               {temperature} K ({(temperature - 273.15).toFixed(1)} °C)
             </span>
@@ -422,7 +422,7 @@ export const PistonCylinderSim: React.FC = () => {
         {/* Slider 3: Moles */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">Gas Amount ($n$)</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-300">Gas Amount (<MathView math="n" />)</span>
             <span className="font-mono font-bold text-cyan-600 dark:text-cyan-400">
               {moles.toFixed(2)} moles
             </span>
@@ -465,7 +465,7 @@ export const PistonCylinderSim: React.FC = () => {
           <div className="text-base font-bold font-mono text-cyan-600 dark:text-cyan-400">
             {(moles * R * temperature / 1000).toFixed(2)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$nRT$ energy content</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="nRT" /> energy content</div>
         </div>
       </div>
 

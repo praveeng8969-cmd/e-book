@@ -82,10 +82,10 @@ export const EnergyBalanceSim: React.FC = () => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              First Law Closed System Energy Balance ($\Delta U = Q - W$)
+              First Law Closed System Energy Balance (<MathView math="\Delta U = Q - W" />)
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Conservation of Energy: Heat Added ($Q$), Boundary Work ($W$), and Internal Energy storage ($\Delta U$).
+              Conservation of Energy: Heat Added (<MathView math="Q" />), Boundary Work (<MathView math="W" />), and Internal Energy storage (<MathView math="\Delta U" />).
             </p>
           </div>
         </div>
@@ -264,7 +264,7 @@ export const EnergyBalanceSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-rose-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5" /> Heat Transfer ($Q$)
+              <Flame className="w-3.5 h-3.5" /> Heat Transfer (<MathView math="Q" />)
             </span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">
               {heatQ > 0 ? `+${heatQ}` : heatQ} kJ
@@ -292,7 +292,7 @@ export const EnergyBalanceSim: React.FC = () => {
         <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-emerald-500/20 space-y-2">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5" /> Work Interaction ($W$)
+              <Zap className="w-3.5 h-3.5" /> Work Interaction (<MathView math="W" />)
             </span>
             <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
               {workW > 0 ? `+${workW}` : workW} kJ
@@ -324,15 +324,15 @@ export const EnergyBalanceSim: React.FC = () => {
           <div className="text-base font-bold font-mono text-purple-600 dark:text-purple-400">
             {deltaU > 0 ? `+${deltaU}` : deltaU} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$\Delta U = Q - W$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="\Delta U = Q - W" /></div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Heat Input ($Q$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Heat Input (<MathView math="Q" />)</div>
           <div className="text-base font-bold font-mono text-rose-600 dark:text-rose-400">{heatQ} kJ</div>
           <div className="text-[10px] text-slate-600 dark:text-slate-400">{heatQ >= 0 ? 'Endothermic (+)' : 'Exothermic (-)'}</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Work Output ($W$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Work Output (<MathView math="W" />)</div>
           <div className="text-base font-bold font-mono text-emerald-600 dark:text-emerald-400">{workW} kJ</div>
           <div className="text-[10px] text-slate-600 dark:text-slate-400">{workW >= 0 ? 'Expansion (+)' : 'Compression (-)'}</div>
         </div>

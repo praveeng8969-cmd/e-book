@@ -269,7 +269,7 @@ export const GasMixtureSim: React.FC = () => {
               Dalton's Law of Partial Pressures Chamber Lab
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              $P_{'{'}total{'}'} = \sum P_i = P_A + P_B$ with mole fractions $y_i = n_i / n_{'{'}total{'}'}$ and gas mixing kinetics.
+              <MathView math="P_{total} = \sum P_i = P_A + P_B" /> with mole fractions <MathView math="y_i = n_i / n_{total}" /> and gas mixing kinetics.
             </p>
           </div>
         </div>
@@ -311,7 +311,7 @@ export const GasMixtureSim: React.FC = () => {
             ref={canvasRef}
             width={340}
             height={250}
-            className="w-full max-w-[340px] h-[250px] rounded-xl shadow-inner"
+            className="w-full max-w-[340px] h-auto rounded-xl shadow-inner"
           />
           <div className="flex items-center justify-between w-full mt-2 px-2 text-[11px] font-mono text-slate-600 dark:text-slate-400">
             <span>Vol: {chamberVolumeL} L</span>
@@ -330,7 +330,7 @@ export const GasMixtureSim: React.FC = () => {
               <span>Dalton Partial Pressures Split (kPa)</span>
             </h4>
             <span className="text-[11px] font-mono font-bold text-teal-600 dark:text-teal-400">
-              $P_{'{'}tot{'}'}$ = {totalPressureKPa} kPa ({(totalPressureKPa / 100).toFixed(2)} bar)
+              <MathView math="P_{tot}" /> = {totalPressureKPa} kPa ({(totalPressureKPa / 100).toFixed(2)} bar)
             </span>
           </div>
 
@@ -395,7 +395,7 @@ export const GasMixtureSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Moles of Gas A ($n_A$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Moles of Gas A (<MathView math="n_A" />)</span>
               <span className="font-mono font-bold text-sky-600">{molesA.toFixed(1)} mol</span>
             </div>
             <input
@@ -409,7 +409,7 @@ export const GasMixtureSim: React.FC = () => {
             />
             <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
               <span>0.5 mol</span>
-              <span>Mole Fraction $y_A = {(moleFractionA * 100).toFixed(1)}\%$</span>
+              <span>Mole Fraction <MathView math="y_A" /> = {(moleFractionA * 100).toFixed(1)}%</span>
               <span>6.0 mol</span>
             </div>
           </div>
@@ -436,7 +436,7 @@ export const GasMixtureSim: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Moles of Gas B ($n_B$)</span>
+              <span className="text-slate-600 dark:text-slate-400">Moles of Gas B (<MathView math="n_B" />)</span>
               <span className="font-mono font-bold text-amber-600">{molesB.toFixed(1)} mol</span>
             </div>
             <input
@@ -450,7 +450,7 @@ export const GasMixtureSim: React.FC = () => {
             />
             <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
               <span>0.5 mol</span>
-              <span>Mole Fraction $y_B = {(moleFractionB * 100).toFixed(1)}\%$</span>
+              <span>Mole Fraction <MathView math="y_B" /> = {(moleFractionB * 100).toFixed(1)}%</span>
               <span>6.0 mol</span>
             </div>
           </div>
@@ -460,24 +460,24 @@ export const GasMixtureSim: React.FC = () => {
       {/* Readout Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Total Pressure ($P_{'{'}tot{'}'}$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Total Pressure (<MathView math="P_{tot}" />)</div>
           <div className="text-base font-bold font-mono text-teal-600 dark:text-teal-400">{totalPressureKPa} kPa</div>
           <div className="text-[10px] text-slate-600 dark:text-slate-400">{(totalPressureKPa / 100).toFixed(2)} bar</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Partial Pressure $P_A$</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Partial Pressure <MathView math="P_A" /></div>
           <div className="text-base font-bold font-mono text-sky-600 dark:text-sky-400">{partialPA} kPa</div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$y_A = {(moleFractionA * 100).toFixed(1)}\%$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="y_A" /> = {(moleFractionA * 100).toFixed(1)}%</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Partial Pressure $P_B$</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Partial Pressure <MathView math="P_B" /></div>
           <div className="text-base font-bold font-mono text-amber-600 dark:text-amber-400">{partialPB} kPa</div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$y_B = {(moleFractionB * 100).toFixed(1)}\%$</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="y_B" /> = {(moleFractionB * 100).toFixed(1)}%</div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Mixture Molar Mass ($M_e$)</div>
+          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Mixture Molar Mass (<MathView math="M_e" />)</div>
           <div className="text-base font-bold font-mono text-slate-800 dark:text-slate-200">{mixMolarMass} g/mol</div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">$R_{'{'}mix{'}'} = {rMix}$ kJ/kg·K</div>
+          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="R_{mix}" /> = {rMix} kJ/kg·K</div>
         </div>
       </div>
 

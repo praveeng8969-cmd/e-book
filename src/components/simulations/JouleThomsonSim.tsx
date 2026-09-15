@@ -253,7 +253,7 @@ export const JouleThomsonSim: React.FC = () => {
               Joule-Thomson Throttling Valve & Inversion Curve Lab
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Isenthalpic expansion ($h_1 = h_2$) through porous plug with Joule-Thomson coefficient $\mu_{'{'}JT{'}'} = (\partial T/\partial P)_h$.
+              Isenthalpic expansion (<MathView math="h_1 = h_2" />) through porous plug with Joule-Thomson coefficient <MathView math="\mu_{JT} = (\partial T/\partial P)_h" />.
             </p>
           </div>
         </div>
@@ -278,7 +278,7 @@ export const JouleThomsonSim: React.FC = () => {
           ref={canvasRef}
           width={680}
           height={340}
-          className="w-full max-w-[680px] h-[340px] rounded-xl shadow-inner"
+          className="w-full max-w-[680px] h-auto rounded-xl shadow-inner"
         />
       </div>
 
@@ -287,7 +287,7 @@ export const JouleThomsonSim: React.FC = () => {
         {/* Inlet Pressure */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-rose-600 dark:text-rose-400">Inlet Pressure ($P_1$)</span>
+            <span className="font-semibold text-rose-600 dark:text-rose-400">Inlet Pressure (<MathView math="P_1" />)</span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{inletPressBar} bar</span>
           </div>
           <input
@@ -308,7 +308,7 @@ export const JouleThomsonSim: React.FC = () => {
         {/* Exit Pressure */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-teal-600 dark:text-teal-400">Exit Pressure ($P_2$)</span>
+            <span className="font-semibold text-teal-600 dark:text-teal-400">Exit Pressure (<MathView math="P_2" />)</span>
             <span className="font-mono font-bold text-teal-600 dark:text-teal-400">{exitPressBar} bar</span>
           </div>
           <input
@@ -329,7 +329,7 @@ export const JouleThomsonSim: React.FC = () => {
         {/* Initial Temperature */}
         <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-amber-600 dark:text-amber-400">Inlet Temp ($T_1$)</span>
+            <span className="font-semibold text-amber-600 dark:text-amber-400">Inlet Temp (<MathView math="T_1" />)</span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{initialTempK} K ({(initialTempK - 273.15).toFixed(0)}°C)</span>
           </div>
           <input
@@ -366,13 +366,13 @@ export const JouleThomsonSim: React.FC = () => {
 
         <div className="flex items-center gap-4 text-xs font-mono">
           <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-slate-600 dark:text-slate-400">$\mu_{'{'}JT{'}'}$: </span>
+            <span className="text-slate-600 dark:text-slate-400"><MathView math="\mu_{JT}" />: </span>
             <span className="font-bold text-teal-600 dark:text-teal-400">
               {mu_JT.toFixed(3)} K/bar
             </span>
           </div>
           <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-slate-600 dark:text-slate-400">Exit Temp $T_2$: </span>
+            <span className="text-slate-600 dark:text-slate-400">Exit Temp <MathView math="T_2" />: </span>
             <span className="font-bold text-slate-800 dark:text-slate-200">
               {exitTempK} K ({(exitTempK - 273.15).toFixed(1)}°C)
             </span>
