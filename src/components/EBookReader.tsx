@@ -431,29 +431,24 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
   };
 
   // Helper to render interactive simulation labs inside chapter sections
-  const renderSectionSimulation = (sectionId: string, chapterId: number) => {
+    // Each simulation appears exactly once — no duplicates
+    const renderSectionSimulation = (sectionId: string, chapterId: number) => {
     let simComponent: React.ReactNode = null;
 
-    // Chapter 1: Basic Concepts -> Piston-Cylinder Simulator (in 1.1) & System Boundary (in 1.2)
+    // Chapter 1: Basic Concepts
     if (chapterId === 1 && (sectionId === '1-1-definition-systems' || sectionId.includes('1-1'))) {
       simComponent = <PistonCylinderSim />;
     } else if (chapterId === 1 && (sectionId === '1-2-types-of-systems' || sectionId.includes('1-2'))) {
       simComponent = <SystemBoundarySim />;
     }
 
-    // Chapter 2: Zeroth Law -> Thermal Equilibrium Lab (in 2.1), Thermal Equilibrium (in 2.3), Piston-Cylinder for Gas Laws (in 2.4)
+    // Chapter 2: Zeroth Law — only in 2.1
     else if (chapterId === 2 && (sectionId === '2-1-zeroth-law-statement' || sectionId.includes('2-1'))) {
       simComponent = <ThermalEquilibriumSim />;
-    } else if (chapterId === 2 && (sectionId === '2-3-temperature-scales' || sectionId.includes('2-3'))) {
-      simComponent = <ThermalEquilibriumSim />;
-    } else if (chapterId === 2 && (sectionId === '2-4-gas-laws' || sectionId.includes('2-4'))) {
-      simComponent = <PistonCylinderSim />;
     }
 
-    // Chapter 3: First Law -> Piston-Cylinder for Work concept (in 3.1), P-V Work (in 3.2), Energy Balance (in 3.3), SFEE (in 3.4)
-    else if (chapterId === 3 && (sectionId === '3-1-work-definition' || sectionId.includes('3-1'))) {
-      simComponent = <PistonCylinderSim />;
-    } else if (chapterId === 3 && (sectionId === '3-2-closed-system-work' || sectionId.includes('3-2'))) {
+    // Chapter 3: First Law — P-V work (3.2), Energy Balance (3.3), SFEE (3.4)
+    else if (chapterId === 3 && (sectionId === '3-2-closed-system-work' || sectionId.includes('3-2'))) {
       simComponent = <PVDomainSim />;
     } else if (chapterId === 3 && (sectionId === '3-3-first-law-closed-systems' || sectionId.includes('3-3'))) {
       simComponent = <EnergyBalanceSim />;
@@ -461,40 +456,32 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
       simComponent = <SteadyFlowDevicesSim />;
     }
 
-    // Chapter 4: Second Law -> Carnot Cycle for context (in 4.1), Carnot Cycle Simulator (in 4.2)
-    else if (chapterId === 4 && (sectionId === '4-1-need-and-statements' || sectionId.includes('4-1'))) {
-      simComponent = <CarnotCycleSim />;
-    } else if (chapterId === 4 && (sectionId === '4-2-carnot-cycle-and-theorem' || sectionId.includes('4-2'))) {
+    // Chapter 4: Second Law — only in 4.2
+    else if (chapterId === 4 && (sectionId === '4-2-carnot-cycle-and-theorem' || sectionId.includes('4-2'))) {
       simComponent = <CarnotCycleSim />;
     }
 
-    // Chapter 5: Entropy -> Entropy Generation Lab (in 5.2), Entropy Generation for Tds context (in 5.3)
+    // Chapter 5: Entropy — only in 5.2
     else if (chapterId === 5 && (sectionId === '5-2-increase-of-entropy' || sectionId.includes('5-2'))) {
       simComponent = <EntropyGenerationSim />;
-    } else if (chapterId === 5 && (sectionId === '5-3-tds-equations' || sectionId.includes('5-3'))) {
-      simComponent = <EntropyGenerationSim />;
     }
 
-    // Chapter 6: Exergy -> Exergy & Dead State Visualizer (in 6.1), Exergy for Availability (in 6.2), Entropy Gen for Gouy-Stodola (in 6.3)
+    // Chapter 6: Exergy — only in 6.1
     else if (chapterId === 6 && (sectionId === '6-1-available-unavailable-energy' || sectionId.includes('6-1'))) {
       simComponent = <ExergyDeadStateSim />;
-    } else if (chapterId === 6 && (sectionId === '6-2-availability-functions' || sectionId.includes('6-2'))) {
-      simComponent = <ExergyDeadStateSim />;
-    } else if (chapterId === 6 && (sectionId === '6-3-gouy-stodola-theorem' || sectionId.includes('6-3'))) {
-      simComponent = <EntropyGenerationSim />;
     }
 
-    // Chapter 7: Gas Mixtures -> Dalton's Law Chamber (in 7.1)
+    // Chapter 7: Gas Mixtures — only in 7.1
     else if (chapterId === 7 && (sectionId === '7-1-composition-dalton' || sectionId.includes('7-1'))) {
       simComponent = <GasMixtureSim />;
     }
 
-    // Chapter 8: Pure Substances -> Phase Dome Lab (in 8.1)
+    // Chapter 8: Pure Substances — only in 8.1
     else if (chapterId === 8 && (sectionId === '8-1-phase-transformation' || sectionId.includes('8-1'))) {
       simComponent = <PhaseChangeDomeSim />;
     }
 
-    // Chapter 9: Thermodynamic Relations -> Joule-Thomson Throttling Valve (in 9.3)
+    // Chapter 9: Thermodynamic Relations — only in 9.3
     else if (chapterId === 9 && (sectionId === '9-3-joule-thomson-clapeyron' || sectionId.includes('9-3'))) {
       simComponent = <JouleThomsonSim />;
     }
@@ -505,7 +492,7 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
       <div className="my-6 rounded-2xl sm:rounded-3xl border border-teal-500/30 bg-slate-50/80 dark:bg-slate-950/70 p-3.5 sm:p-4 md:p-5 lg:p-6 shadow-md dark:shadow-2xl overflow-hidden backdrop-blur-xs">
         <div className="flex items-center gap-2 mb-3 pb-2 border-b border-teal-500/20 text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
           <Sparkles className="w-4 h-4 text-teal-500 shrink-0" />
-          <span>Interactive Thermodynamics Lab & Visual Simulator</span>
+          <span>Interactive Simulation</span>
         </div>
         {simComponent}
       </div>
