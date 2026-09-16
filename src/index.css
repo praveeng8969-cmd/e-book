@@ -97,12 +97,21 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 
-/* Root overflow safety */
+/* Root overflow safety (use overflow-x: clip so position: sticky is not broken) */
 html,
-body,
-#root {
+body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Prevent heading anchors from being hidden beneath persistent sticky header */
+h1, h2, h3, h4, h5, h6, [id] {
+  scroll-margin-top: 5rem;
 }
 
 /* Prevent image/media spillover */

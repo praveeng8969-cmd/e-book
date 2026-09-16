@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Chapter } from '../types';
 import { thermodynamicsChapters } from '../data/chaptersData';
 import {
@@ -43,6 +43,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose,
 }) => {
+  // Prevent background scrolling while mobile drawer overlay is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+    const handleBodyLock = () => {
+      if (mediaQuery.matches) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    };
+
+    handleBodyLock();
+    mediaQuery.addEventListener('change', handleBodyLock);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleBodyLock);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  const handleChapterClick = (id: number) => {
+    onSelectChapter(id);
+    if (window.innerWidth < 1024) {
+      onClose();
+    }
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -50,17 +79,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div
           onClick={onClose}
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          aria-hidden="true"
         />
       )}
 
       <aside
-        className={`fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800/80 flex flex-col z-50 transition-all duration-300 ease-in-out ${
+        className={`fixed lg:sticky top-0 left-0 h-screen h-[100dvh] max-h-[100dvh] self-start shrink-0 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800/80 flex flex-col z-50 lg:z-30 transition-all duration-300 ease-in-out ${
           isOpen
             ? 'w-[85vw] sm:w-80 max-w-[20rem] translate-x-0 opacity-100 visible'
             : '-translate-x-full lg:translate-x-0 lg:w-0 lg:min-w-0 lg:max-w-0 lg:opacity-0 lg:invisible lg:overflow-hidden lg:border-r-0'
         }`}
       >
-        {/* App Title / Brand & Hide Button */}
+        {/* App Title / Brand & Hide Button (Always Visible) */}
         <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800/80 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-500 to-cyan-400 p-0.5 shadow-md shadow-teal-500/20 flex items-center justify-center text-slate-950 font-black shrink-0">
@@ -84,23 +114,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
 
-        {/* Chapters Navigation List */}
-        <div className="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-1">
-          <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-3 py-1.5">
+        {/* Persistent "Table of Contents" Subheader (Always Visible outside scrollable list) */}
+        <div className="px-4 sm:px-5 pt-3.5 pb-2 shrink-0 flex items-center justify-between border-b border-slate-100 dark:border-slate-900/60 bg-slate-50/50 dark:bg-slate-950/50">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
             Table of Contents
-          </div>
+          </span>
+          <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+            {thermodynamicsChapters.length} Chapters
+          </span>
+        </div>
 
+        {/* Chapters Navigation List - Independent Scroll Container */}
+        <nav
+          aria-label="Table of contents"
+          className="flex-1 min-h-0 overflow-y-auto p-2.5 sm:p-3 space-y-1 overscroll-contain touch-pan-y"
+        >
           {thermodynamicsChapters.map((chap) => {
             const isSelected = selectedChapterId === chap.id;
             return (
               <button
                 key={chap.id}
-                onClick={() => {
-                  onSelectChapter(chap.id);
-                  if (window.innerWidth < 1024) {
-                    onClose();
-                  }
-                }}
+                onClick={() => handleChapterClick(chap.id)}
                 className={`w-full text-left p-2.5 sm:p-3 rounded-2xl transition-all flex items-start gap-3 group relative min-h-[48px] ${
                   isSelected
                     ? 'bg-teal-50 border border-teal-400 text-slate-950 shadow-sm dark:bg-[#134E4A]/50 dark:border-[#14B8A6] dark:text-[#F8FAFC] dark:shadow-lg dark:shadow-teal-950/40'
@@ -144,7 +178,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </button>
             );
           })}
-        </div>
+        </nav>
       </aside>
     </>
   );

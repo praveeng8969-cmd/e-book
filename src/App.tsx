@@ -10,7 +10,12 @@ import { HandwrittenNotesViewer } from './components/HandwrittenNotesViewer';
 export function App() {
   const [currentView, setCurrentView] = useState<MainView>('reader');
   const [selectedChapterId, setSelectedChapterId] = useState<number>(1);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return true;
+  });
 
   const currentChapter =
     thermodynamicsChapters.find((c) => c.id === selectedChapterId) || thermodynamicsChapters[0];
@@ -31,7 +36,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0F172A] dark:text-[#CBD5E1] flex flex-col font-sans selection:bg-[#14B8A6]/30 selection:text-[#5EEAD4]">
-      <div className="flex-1 flex">
+      <div className="flex-1 flex w-full">
         {/* Sidebar */}
         <Sidebar
           selectedChapterId={selectedChapterId}
