@@ -534,7 +534,9 @@ export const ThermalEquilibriumSim: React.FC = () => {
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-sky-100 dark:border-sky-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Equilibrium Temperature:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">T_f = (m_A c_A T_A + m_B c_B T_B) / (m_A c_A + m_B c_B). Heat gained equals heat lost in an isolated enclosure.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="T_f = \frac{m_A c_A T_A + m_B c_B T_B}{m_A c_A + m_B c_B}" />. Heat gained equals heat lost in an isolated enclosure.
+            </div>
           </div>
         </div>
       </div>

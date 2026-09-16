@@ -34,12 +34,12 @@ export const ExergyDeadStateSim: React.FC = () => {
   // Recharts Pie Data
   const pieData = [
     {
-      name: 'Exergy (Available Work W_max)',
+      name: 'Exergy (Available Work)',
       value: exergyKJ,
       color: '#10b981', // Emerald
     },
     {
-      name: 'Anergy (Unavailable Energy Q_0)',
+      name: 'Anergy (Unavailable Energy)',
       value: anergyKJ,
       color: isDark ? '#475569' : '#94a3b8', // Slate
     },

@@ -70,10 +70,10 @@ export const EntropyGenerationSim: React.FC = () => {
       ctx.fillText('HOT SOURCE', b1X + 18, b1Y + 28);
       ctx.font = 'bold 16px Fira Code, monospace';
       ctx.fillStyle = ct.isLight ? '#be123c' : '#fca5a5';
-      ctx.fillText(`T_H = ${tempSource} K`, b1X + 12, b1Y + 65);
+      ctx.fillText(`Tₕ = ${tempSource} K`, b1X + 12, b1Y + 65);
       ctx.font = '10px Plus Jakarta Sans, sans-serif';
       ctx.fillStyle = ct.isLight ? '#9f1239' : '#fecdd3';
-      ctx.fillText(`ΔS_H = ${(deltaS_source).toFixed(3)}`, b1X + 12, b1Y + 110);
+      ctx.fillText(`ΔSₕ = ${(deltaS_source).toFixed(3)}`, b1X + 12, b1Y + 110);
       ctx.fillText('kJ/K (Entropy Lost)', b1X + 12, b1Y + 125);
 
       // Block 2: Cold Thermal Reservoir (Right)
@@ -91,10 +91,10 @@ export const EntropyGenerationSim: React.FC = () => {
       ctx.fillText('COLD SINK', b2X + 22, b2Y + 28);
       ctx.font = 'bold 16px Fira Code, monospace';
       ctx.fillStyle = ct.isLight ? '#0284c7' : '#7dd3fc';
-      ctx.fillText(`T_L = ${tempSink} K`, b2X + 12, b2Y + 65);
+      ctx.fillText(`Tₗ = ${tempSink} K`, b2X + 12, b2Y + 65);
       ctx.font = '10px Plus Jakarta Sans, sans-serif';
       ctx.fillStyle = ct.isLight ? '#0369a1' : '#bae6fd';
-      ctx.fillText(`ΔS_L = +${deltaS_sink.toFixed(3)}`, b2X + 12, b2Y + 110);
+      ctx.fillText(`ΔSₗ = +${deltaS_sink.toFixed(3)}`, b2X + 12, b2Y + 110);
       ctx.fillText('kJ/K (Entropy Gained)', b2X + 12, b2Y + 125);
 
       // Conduction Bridge between reservoirs
@@ -182,7 +182,7 @@ export const EntropyGenerationSim: React.FC = () => {
               Entropy Generation (<MathView math="\Delta S_{univ} = S_{gen}" />) & Irreversibility Lab
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Spontaneous heat transfer across finite temperature difference &Delta;T generating entropy (S_gen &gt; 0).
+              Spontaneous heat transfer across a finite temperature difference <MathView math="\Delta T" /> generating entropy (<MathView math="S_{gen} > 0" />).
             </p>
           </div>
         </div>
@@ -243,7 +243,7 @@ export const EntropyGenerationSim: React.FC = () => {
                 <YAxis
                   dataKey="sGen"
                   tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }}
-                  label={{ value: 'S_gen (kJ/K)', angle: -90, position: 'insideLeft', fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }}
+                  label={{ value: 'Entropy generated (kJ/K)', angle: -90, position: 'insideLeft', fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }}
                 />
                 <Tooltip
                   content={({ active, payload }) => {
@@ -382,9 +382,9 @@ export const EntropyGenerationSim: React.FC = () => {
       <div className="bg-amber-50/70 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3.5">
         <h5 className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
         <ul className="text-xs text-amber-900 dark:text-amber-300 space-y-1 leading-relaxed">
-          <li>• ΔS_universe = ΔS_system + ΔS_surroundings ≥ 0 (Clausius Inequality for irreversible processes)</li>
+          <li>• <MathView math="\Delta S_{universe} = \Delta S_{system} + \Delta S_{surroundings} \ge 0" /> (Clausius Inequality for irreversible processes)</li>
           <li>• Larger ΔT between reservoirs → more entropy generated → more exergy destroyed</li>
-          <li>• <strong>Gouy-Stodola Theorem</strong>: Lost work (Irreversibility) I = T₀ · S_gen — directly proportional to entropy generated</li>
+          <li>• <strong>Gouy-Stodola Theorem</strong>: Lost work (Irreversibility) <MathView math="I = T_0 \cdot S_{gen}" /> — directly proportional to entropy generated</li>
           <li>• To minimize irreversibility: reduce ΔT in heat exchangers, avoid friction, prevent unrestrained expansion</li>
         </ul>
       </div>

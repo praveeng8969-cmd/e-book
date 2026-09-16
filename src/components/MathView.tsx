@@ -7,6 +7,24 @@ interface MathViewProps {
   className?: string;
 }
 
+const INLINE_MATH = /(\$[^$\n]+?\$)/g;
+
+// Prose that mixes sentences with inline math, e.g. "Heat $Q_{in}$ is absorbed at $T_H$."
+export const MathText: React.FC<{ text: string; className?: string }> = ({ text, className = '' }) => {
+  if (!text) return null;
+  return (
+    <span className={className}>
+      {text.split(INLINE_MATH).map((part, i) =>
+        part.startsWith('$') && part.endsWith('$') && part.length > 2 ? (
+          <MathView key={i} math={part.slice(1, -1)} />
+        ) : (
+          part
+        )
+      )}
+    </span>
+  );
+};
+
 export const MathView: React.FC<MathViewProps> = ({ math, block = false, className = '' }) => {
   const html = useMemo(() => {
     if (!math) return '';
@@ -24,7 +42,7 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
 
   return (
     <span
-      className={`${block ? 'block my-3 overflow-x-auto text-center py-1' : 'inline-block px-1'} ${className}`}
+      className={`${block ? 'block my-3 overflow-x-auto text-center py-1' : 'inline-block align-baseline'} ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

@@ -34,7 +34,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
   const { regionName, qualityX, stateColor } = useMemo(() => {
     if (tempC > 374 || pressureBar > 220.6) {
       return {
-        regionName: 'Supercritical Fluid (Above Critical Point T_c=374°C, P_c=220.6 bar)',
+        regionName: 'Supercritical Fluid (above the critical point: 374°C, 220.6 bar)',
         qualityX: null,
         stateColor: '#a855f7', // Purple
       };
@@ -250,7 +250,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
     ctx.fillText('C (374°C, 221.2 bar)', critX + 10, critY - 4);
     ctx.font = '9px Plus Jakarta Sans, sans-serif';
     ctx.fillStyle = isLightTheme ? '#7c3aed' : '#c4b5fd';
-    ctx.fillText('h_fg = 0 at C', critX + 10, critY + 10);
+    ctx.fillText('Latent heat → 0 at C', critX + 10, critY + 10);
 
     // Region Labels on the T-v Chart
     ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
@@ -295,7 +295,7 @@ export const PhaseChangeDomeSim: React.FC = () => {
 
     ctx.fillStyle = isLightTheme ? '#b45309' : '#fcd34d';
     ctx.font = 'bold 9px Plus Jakarta Sans, sans-serif';
-    ctx.fillText(`P = ${pressureBar} bar (T_sat = ${tSatC}°C)`, satVfX + 5, pY - 6);
+    ctx.fillText(`P = ${pressureBar} bar (Tₛₐₜ = ${tSatC}°C)`, satVfX + 5, pY - 6);
 
     // Draw Current State Point
     const stateX = toX(specVol);
@@ -469,10 +469,10 @@ export const PhaseChangeDomeSim: React.FC = () => {
       <div className="bg-teal-50/70 dark:bg-teal-500/5 border border-teal-200 dark:border-teal-500/20 rounded-xl p-3.5">
         <h5 className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
         <ul className="text-xs text-teal-900 dark:text-teal-300 space-y-1 leading-relaxed">
-          <li>• During boiling (wet region), both T and P remain <strong>constant</strong> — all heat goes into latent heat h_fg</li>
-          <li>• Quality x = m_vapor / m_total. Use x to interpolate: v = v_f + x·v_fg, h = h_f + x·h_fg</li>
-          <li>• At the <strong>Critical Point</strong> (374°C, 221.2 bar): h_fg = 0, liquid transforms directly to vapor</li>
-          <li>• <strong>State ID</strong>: Compare T with T_sat (or v with v_f, v_g) to identify subcooled / wet / superheated</li>
+          <li>• During boiling (wet region), both T and P remain <strong>constant</strong> — all heat goes into latent heat <MathView math="h_{fg}" /></li>
+          <li>• Quality <MathView math="x = m_{vapor} / m_{total}" />. Use it to interpolate: <MathView math="v = v_f + x v_{fg}" />, <MathView math="h = h_f + x h_{fg}" /></li>
+          <li>• At the <strong>Critical Point</strong> (374°C, 221.2 bar): <MathView math="h_{fg} = 0" />, liquid transforms directly to vapor</li>
+          <li>• <strong>State ID</strong>: Compare <MathView math="T" /> with <MathView math="T_{sat}" /> (or <MathView math="v" /> with <MathView math="v_f, v_g" />) to identify subcooled / wet / superheated</li>
         </ul>
       </div>
     </div>

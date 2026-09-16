@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Wind, Play, Pause, RotateCcw, ArrowRight, Cog, ShieldAlert, Cpu } from 'lucide-react';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
 import { getCanvasTheme } from '../../utils/canvasTheme';
 
@@ -49,7 +49,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
       exitVelocity = Math.sqrt(Math.pow(inletVelocity, 2) + 2000 * enthalpyDropNozzle);
       workOutput = 0;
       sfeeFormula = 'h_1 + \\frac{C_1^2}{2} = h_2 + \\frac{C_2^2}{2} \\implies C_2 = \\sqrt{C_1^2 + 2(h_1 - h_2)}';
-      deviceDescription = 'Converging device that increases fluid velocity (C2 > C1) at the expense of pressure and enthalpy (P2 < P1, h2 < h1). Work transfer W_cv = 0, Heat transfer Q = 0.';
+      deviceDescription = 'Converging device that increases fluid velocity ($C_2 > C_1$) at the expense of pressure and enthalpy ($P_2 < P_1$, $h_2 < h_1$). Work transfer $W_{cv} = 0$, heat transfer $Q = 0$.';
       break;
 
     case 'diffuser':
@@ -58,7 +58,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
       exitEnthalpy = inletEnthalpy + (Math.pow(inletVelocity, 2) - Math.pow(exitVelocity, 2)) / 2000;
       workOutput = 0;
       sfeeFormula = 'h_1 + \\frac{C_1^2}{2} = h_2 + \\frac{C_2^2}{2} \\implies h_2 = h_1 + \\frac{C_1^2 - C_2^2}{2}';
-      deviceDescription = 'Diverging passage that decelerates fluid (C2 < C1) to achieve static pressure recovery (P2 > P1). W_cv = 0, Q = 0.';
+      deviceDescription = 'Diverging passage that decelerates fluid ($C_2 < C_1$) to achieve static pressure recovery ($P_2 > P_1$). $W_{cv} = 0$, $Q = 0$.';
       break;
 
     case 'turbine':
@@ -68,7 +68,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
       exitVelocity = inletVelocity * 1.1;
       workOutput = turbineEnthalpyDrop;
       sfeeFormula = 'W_{\\text{turbine}} = h_1 - h_2 \\quad (\\text{Work Producing}, W_{cv} > 0)';
-      deviceDescription = 'Fluid expands through turbine blades, converting enthalpy drop into mechanical shaft work (W_T = h1 - h2). Widely used in steam and gas power plants.';
+      deviceDescription = 'Fluid expands through turbine blades, converting enthalpy drop into mechanical shaft work ($W_T = h_1 - h_2$). Widely used in steam and gas power plants.';
       break;
 
     case 'compressor':
@@ -78,7 +78,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
       exitVelocity = inletVelocity * 0.9;
       workOutput = -compressorEnthalpyRise;
       sfeeFormula = 'W_{\\text{compressor}} = h_2 - h_1 \\quad (\\text{Work Absorbing}, W_{cv} < 0)';
-      deviceDescription = 'External shaft power is supplied to compress gas, raising both pressure (P2 > P1) and enthalpy (h2 > h1). W_in = h2 - h1.';
+      deviceDescription = 'External shaft power is supplied to compress gas, raising both pressure ($P_2 > P_1$) and enthalpy ($h_2 > h_1$). $W_{in} = h_2 - h_1$.';
       break;
 
     case 'throttling':
@@ -87,7 +87,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
       exitVelocity = inletVelocity;
       workOutput = 0;
       sfeeFormula = 'h_1 = h_2 \\quad (\\text{Isenthalpic Process}, \\Delta h = 0, W=0, Q=0)';
-      deviceDescription = 'Fluid flows through a porous plug or partially open valve. High frictional resistance causes substantial pressure drop (P1 >> P2) at constant enthalpy (h1 = h2). Irreversible.';
+      deviceDescription = 'Fluid flows through a porous plug or partially open valve. High frictional resistance causes a substantial pressure drop ($P_1 \\gg P_2$) at constant enthalpy ($h_1 = h_2$). Irreversible.';
       break;
   }
 
@@ -181,7 +181,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
         ctx.stroke();
         ctx.fillStyle = '#10b981';
         ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
-        ctx.fillText(`+W_shaft = ${workOutput} kJ/kg`, (dLeft + dRight) / 2 - 10, dCenterY - 110);
+        ctx.fillText(`Shaft work = +${workOutput} kJ/kg`, (dLeft + dRight) / 2 - 10, dCenterY - 110);
       } else if (device === 'compressor') {
         // Compressor casing (converging with rotating impeller)
         ctx.beginPath();
@@ -222,7 +222,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
         ctx.stroke();
         ctx.fillStyle = '#f59e0b';
         ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
-        ctx.fillText(`-W_in = ${Math.abs(workOutput)} kJ/kg`, (dLeft + dRight) / 2 - 40, dCenterY - 110);
+        ctx.fillText(`Work input = −${Math.abs(workOutput)} kJ/kg`, (dLeft + dRight) / 2 - 40, dCenterY - 110);
       } else if (device === 'throttling') {
         // Porous Plug Throttling Valve
         ctx.beginPath();
@@ -384,7 +384,7 @@ export const SteadyFlowDevicesSim: React.FC = () => {
             <ShieldAlert className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             Thermodynamic Behavior
           </span>
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed pt-1 font-medium">{deviceDescription}</p>
+          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed pt-1 font-medium"><MathText text={deviceDescription} /></p>
         </div>
       </div>
 

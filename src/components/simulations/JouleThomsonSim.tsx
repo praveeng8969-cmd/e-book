@@ -206,10 +206,10 @@ export const JouleThomsonSim: React.FC = () => {
       // Region Annotations
       ctx.fillStyle = '#0284c7';
       ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
-      ctx.fillText('COOLING REGION (μ_JT > 0)', pToX(40), tToY(240));
+      ctx.fillText('COOLING REGION (μ > 0)', pToX(40), tToY(240));
 
       ctx.fillStyle = '#ea580c';
-      ctx.fillText('HEATING REGION (μ_JT < 0)', pToX(140), tToY(520));
+      ctx.fillText('HEATING REGION (μ < 0)', pToX(140), tToY(520));
 
       // Throttling Isenthalpic Path Line (1 -> 2)
       ctx.strokeStyle = '#10b981';
@@ -359,7 +359,7 @@ export const JouleThomsonSim: React.FC = () => {
               Throttling Thermal Outcome
             </div>
             <div className={`text-base sm:text-lg font-extrabold ${isCoolingRegion ? 'text-cyan-600 dark:text-cyan-400' : 'text-rose-600 dark:text-rose-400'}`}>
-              {isCoolingRegion ? 'COOLING OCCURS (Inside Inversion Dome, μ_JT > 0)' : 'HEATING OCCURS (Outside Inversion Dome, μ_JT < 0)'}
+              {isCoolingRegion ? <>COOLING OCCURS (Inside Inversion Dome, <MathView math="\mu_{JT} > 0" />)</> : <>HEATING OCCURS (Outside Inversion Dome, <MathView math="\mu_{JT} < 0" />)</>}
             </div>
           </div>
         </div>
@@ -387,16 +387,22 @@ export const JouleThomsonSim: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Definition of &mu;_JT:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">&mu;_JT = (&part;T/&part;P)_h = (1/C_p) [T(&part;v/&part;T)_P - v]. Slope of isenthalpic curves on T-P plot.</div>
+            <span className="font-bold text-slate-900 dark:text-slate-100">Definition of <MathView math="\mu_{JT}" />:</span>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="\mu_{JT} = (\partial T/\partial P)_h = \frac{1}{C_p}\left[T(\partial v/\partial T)_P - v\right]" />. Slope of isenthalpic curves on the T-P plot.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Cooling vs Heating:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">&mu;_JT &gt; 0 causes cooling during throttling expansion (dP &lt; 0 &rarr; dT &lt; 0). &mu;_JT &lt; 0 causes heating. On the inversion curve, &mu;_JT = 0.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="\mu_{JT} > 0" /> causes cooling during throttling expansion (<MathView math="dP < 0 \Rightarrow dT < 0" />). <MathView math="\mu_{JT} < 0" /> causes heating. On the inversion curve, <MathView math="\mu_{JT} = 0" />.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-cyan-100 dark:border-cyan-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Ideal Gas Case:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">For an ideal gas, Pv = RT, (&part;v/&part;T)_P = R/P = v/T, which gives &mu;_JT = 0 everywhere (no temperature change during throttling).</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              For an ideal gas <MathView math="Pv = RT" />, so <MathView math="(\partial v/\partial T)_P = R/P = v/T" />, which gives <MathView math="\mu_{JT} = 0" /> everywhere (no temperature change during throttling).
+            </div>
           </div>
         </div>
       </div>

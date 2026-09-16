@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QuickFormula } from '../types';
-import { MathView } from './MathView';
+import { MathView, MathText } from './MathView';
 import { Copy, Check, Layers } from 'lucide-react';
 
 interface FormulaCardProps {
@@ -26,7 +26,7 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
 
   const hasParams = formula.parameters && formula.parameters.length > 0;
   const rawTitle = title || formula.name;
-  const displayTitle = rawTitle ? rawTitle.replace(/[*$]/g, '') : '';
+  const displayTitle = rawTitle ? rawTitle.replace(/\*/g, '') : '';
 
   return (
     <div className="bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xs dark:shadow-md hover:border-cyan-500/40 transition-all flex flex-col justify-between group space-y-4 my-4">
@@ -40,7 +40,7 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
           )}
           {displayTitle && (
             <h4 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] tracking-tight truncate">
-              {displayTitle}
+              <MathText text={displayTitle} />
             </h4>
           )}
         </div>
@@ -97,7 +97,7 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
                       {/* Column 1: Symbol Chip */}
                       <div className="flex items-center justify-start shrink-0">
                         <span className="font-mono font-bold text-xs text-cyan-700 dark:text-cyan-300 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xs px-1.5 py-0.5 rounded-md border border-slate-200/80 dark:border-white/10 shrink-0 inline-flex items-center justify-center min-w-[30px] text-center shadow-2xs">
-                          <MathView math={param.symbol} inline />
+                          <MathView math={param.symbol} />
                         </span>
                       </div>
 
@@ -114,7 +114,7 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
                       {/* Column 3: Unit Badge */}
                       <div className="flex justify-end shrink-0">
                         <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-mono text-[11px] font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/70 dark:border-amber-900/40 whitespace-nowrap text-center">
-                          {param.unit}
+                          <MathText text={param.unit} />
                         </span>
                       </div>
                     </div>

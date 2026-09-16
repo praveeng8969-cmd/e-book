@@ -237,19 +237,19 @@ export const GasMixtureSim: React.FC = () => {
   // Recharts Partial Pressures Bar Chart Data
   const chartData = [
     {
-      name: `Partial P_A (${gasA.formula})`,
+      name: `Partial pressure of ${gasA.formula}`,
       pressure: partialPA,
       fraction: (moleFractionA * 100).toFixed(1) + '%',
       color: gasA.color,
     },
     {
-      name: `Partial P_B (${gasB.formula})`,
+      name: `Partial pressure of ${gasB.formula}`,
       pressure: partialPB,
       fraction: (moleFractionB * 100).toFixed(1) + '%',
       color: gasB.color,
     },
     {
-      name: 'Total P_tot (Dalton)',
+      name: 'Total pressure (Dalton)',
       pressure: totalPressureKPa,
       fraction: '100%',
       color: '#14b8a6', // Teal
@@ -489,15 +489,21 @@ export const GasMixtureSim: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Dalton's & Amagat's Laws:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">P = &Sigma; P_i = &Sigma; y_i P (Additive pressures); V = &Sigma; V_i = &Sigma; y_i V (Additive volumes). y_i = n_i / n_mix.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="P = \sum P_i = \sum y_i P" /> (additive pressures); <MathView math="V = \sum V_i = \sum y_i V" /> (additive volumes), with <MathView math="y_i = n_i / n_{mix}" />.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Equivalent Molecular Weight:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">M_mix = &Sigma; y_i M_i = 1 / [&Sigma; (m_i / M_i)]. Gas constant R_mix = R_u / M_mix = &Sigma; m_i R_i.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="M_{mix} = \sum y_i M_i = 1 \big/ \textstyle\sum (m_i / M_i)" />. Gas constant <MathView math="R_{mix} = R_u / M_{mix} = \sum m_i R_i" />.
+            </div>
           </div>
           <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-indigo-100 dark:border-indigo-900/40">
             <span className="font-bold text-slate-900 dark:text-slate-100">Mass vs Mole Fraction:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">m_fi = y_i (M_i / M_mix), while y_i = (m_fi / M_i) / [&Sigma; (m_fk / M_k)]. Sum of all fractions = 1.</div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+              <MathView math="m_{fi} = y_i (M_i / M_{mix})" />, while <MathView math="y_i = (m_{fi} / M_i) \big/ \textstyle\sum (m_{fk} / M_k)" />. Sum of all fractions = 1.
+            </div>
           </div>
         </div>
       </div>

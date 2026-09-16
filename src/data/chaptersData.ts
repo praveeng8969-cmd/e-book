@@ -313,7 +313,7 @@ export const thermodynamicsChapters: Chapter[] = [
         conditions: 'Thermal equilibrium transitivity',
         parameters: [
           { symbol: 'A, B, C', name: 'Thermodynamic Bodies', unit: 'Physical systems', description: 'Distinct bodies or systems undergoing thermal interaction' },
-          { symbol: '\\sim', name: 'Thermal Equilibrium Relation', unit: 'T_A = T_B', description: 'Condition of zero net heat transfer across diathermal boundary' },
+          { symbol: '\\sim', name: 'Thermal Equilibrium Relation', unit: '$T_A = T_B$', description: 'Condition of zero net heat transfer across diathermal boundary' },
           { symbol: 'T', name: 'Thermodynamic Temperature', unit: 'K (Kelvin) or °C', description: 'Scalar property governing direction of spontaneous heat transfer' },
         ],
       },
@@ -545,7 +545,7 @@ export const thermodynamicsChapters: Chapter[] = [
         ],
       },
       {
-        name: 'Adiabatic Work (PV^γ=C)',
+        name: 'Adiabatic Work ($PV^\\gamma = C$)',
         latex: 'W = \\frac{P_1 V_1 - P_2 V_2}{\\gamma - 1} = \\frac{mR(T_1 - T_2)}{\\gamma - 1}',
         understandableForm: 'Adiabatic Work = (Initial P·V - Final P·V) / (Specific Heat Ratio - 1)',
         verbalMeaning: 'Work extracted during insulated expansion (zero heat transfer), which comes solely at the expense of decreasing internal energy (W = -ΔU).',
@@ -559,7 +559,7 @@ export const thermodynamicsChapters: Chapter[] = [
         ],
       },
       {
-        name: 'Polytropic Work (PV^n=C)',
+        name: 'Polytropic Work ($PV^n = C$)',
         latex: 'W = \\frac{P_1 V_1 - P_2 V_2}{n - 1}',
         understandableForm: 'Polytropic Work = (Initial P·V - Final P·V) / (Polytropic Index - 1)',
         verbalMeaning: 'Generalized work formula for practical engineering gas expansion/compression processes where heat transfer and friction both occur.',
@@ -1663,7 +1663,7 @@ export const thermodynamicsChapters: Chapter[] = [
         parameters: [
           { symbol: 'h', name: 'Specific Enthalpy of Wet Steam', unit: 'kJ/kg', description: 'Total enthalpy per unit mass of wet steam' },
           { symbol: 'h_f', name: 'Saturated Liquid Enthalpy (Sensible Heat)', unit: 'kJ/kg', description: 'Enthalpy of liquid at boiling point Tsat' },
-          { symbol: 'h_{fg}', name: 'Latent Heat of Vaporization', unit: 'kJ/kg (h_g - h_f)', description: 'Energy required to transform 1 kg of saturated liquid to saturated vapor at Tsat' },
+          { symbol: 'h_{fg}', name: 'Latent Heat of Vaporization', unit: 'kJ/kg ($h_g - h_f$)', description: 'Energy required to transform 1 kg of saturated liquid to saturated vapor at Tsat' },
           { symbol: 'x', name: 'Dryness Fraction (Quality)', unit: 'Dimensionless [-]', description: 'Vapor mass fraction' },
         ],
       },
@@ -1676,7 +1676,7 @@ export const thermodynamicsChapters: Chapter[] = [
         parameters: [
           { symbol: 's', name: 'Specific Entropy of Wet Steam', unit: 'kJ/kg·K', description: 'Total entropy per unit mass of wet steam' },
           { symbol: 's_f', name: 'Saturated Liquid Specific Entropy', unit: 'kJ/kg·K', description: 'Entropy of pure saturated liquid at Tsat' },
-          { symbol: 's_{fg}', name: 'Latent Entropy of Vaporization', unit: 'kJ/kg·K (h_fg / T_sat)', description: 'Entropy gained during complete phase transformation at constant Tsat' },
+          { symbol: 's_{fg}', name: 'Latent Entropy of Vaporization', unit: 'kJ/kg·K ($h_{fg} / T_{sat}$)', description: 'Entropy gained during complete phase transformation at constant Tsat' },
           { symbol: 'T_{\\text{sat}}', name: 'Saturation Boiling Temperature', unit: 'K (Kelvin)', description: 'Absolute saturation temperature at steam pressure' },
           { symbol: 'x', name: 'Dryness Fraction (Quality)', unit: 'Dimensionless [-]', description: 'Vapor mass fraction' },
         ],
@@ -1869,8 +1869,8 @@ export const thermodynamicsChapters: Chapter[] = [
           { symbol: 'C_p - C_v', name: 'Specific Heat Difference', unit: 'kJ/kg·K (or J/kg·K)', description: 'Difference between isobaric and isochoric heat capacities' },
           { symbol: 'T', name: 'Absolute Temperature', unit: 'K (Kelvin)', description: 'Thermodynamic temperature' },
           { symbol: 'v', name: 'Specific Volume', unit: 'm³/kg', description: 'Volume per unit mass' },
-          { symbol: '\\beta', name: 'Volume Thermal Expansivity', unit: 'K⁻¹ ((1/v)(∂v/∂T)_P)', description: 'Fractional change in volume per degree temperature rise at constant pressure' },
-          { symbol: '\\kappa_T', name: 'Isothermal Compressibility', unit: 'Pa⁻¹ or bar⁻¹ (-(1/v)(∂v/∂P)_T)', description: 'Fractional volume reduction per unit pressure increase at constant temperature' },
+          { symbol: '\\beta', name: 'Volume Thermal Expansivity', unit: 'K⁻¹ ($(1/v)(\\partial v/\\partial T)_P$)', description: 'Fractional change in volume per degree temperature rise at constant pressure' },
+          { symbol: '\\kappa_T', name: 'Isothermal Compressibility', unit: 'Pa⁻¹ or bar⁻¹ ($-(1/v)(\\partial v/\\partial P)_T$)', description: 'Fractional volume reduction per unit pressure increase at constant temperature' },
         ],
       },
       {

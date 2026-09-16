@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Flame, Snowflake, Zap, RefreshCw, Gauge } from 'lucide-react';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
 import { getCanvasTheme } from '../../utils/canvasTheme';
 
@@ -45,25 +45,25 @@ export const CarnotCycleSim: React.FC = () => {
   const stageDescriptions = [
     {
       name: 'Process 1-2: Reversible Isothermal Heat Addition',
-      detail: `Heat Q_in is absorbed reversibly from High-Temp Reservoir (T_H = ${tHigh} K) at constant temperature. Gas expands reversibly doing boundary work.`,
-      tempState: 'T = T_H (Const)',
-      action: 'Heat Addition (+Q_H)',
+      detail: `Heat $Q_{in}$ is absorbed reversibly from the high-temperature reservoir ($T_H$ = ${tHigh} K) at constant temperature. Gas expands reversibly doing boundary work.`,
+      tempState: '$T = T_H$ (Const)',
+      action: 'Heat Addition ($+Q_H$)',
     },
     {
       name: 'Process 2-3: Reversible Adiabatic Expansion',
-      detail: `Gas continues expanding with perfect thermal insulation (Q = 0). Internal energy decreases to produce maximum work while temperature drops from T_H to T_L.`,
+      detail: `Gas continues expanding with perfect thermal insulation ($Q = 0$). Internal energy decreases to produce maximum work while temperature drops from $T_H$ to $T_L$.`,
       tempState: `T drops from ${tHigh} K → ${tLow} K`,
       action: 'Adiabatic Work (+W)',
     },
     {
       name: 'Process 3-4: Reversible Isothermal Heat Rejection',
-      detail: `Heat Q_out is rejected reversibly to Low-Temp Sink (T_L = ${tLow} K) at constant temperature while gas is compressed.`,
-      tempState: 'T = T_L (Const)',
-      action: 'Heat Rejection (-Q_L)',
+      detail: `Heat $Q_{out}$ is rejected reversibly to the low-temperature sink ($T_L$ = ${tLow} K) at constant temperature while gas is compressed.`,
+      tempState: '$T = T_L$ (Const)',
+      action: 'Heat Rejection ($-Q_L$)',
     },
     {
       name: 'Process 4-1: Reversible Adiabatic Compression',
-      detail: `Gas is compressed isentropically (Q = 0). Work is done ON the gas, raising its temperature back from T_L to T_H, completing the cycle.`,
+      detail: `Gas is compressed isentropically ($Q = 0$). Work is done ON the gas, raising its temperature back from $T_L$ to $T_H$, completing the cycle.`,
       tempState: `T rises from ${tLow} K → ${tHigh} K`,
       action: 'Adiabatic Work Input (-W)',
     },
@@ -148,10 +148,10 @@ export const CarnotCycleSim: React.FC = () => {
     // Node labels (1,2,3,4)
     ctx.fillStyle = ct.textMain;
     ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('1 (T_H, S_1)', s1 - 25, t_high_y - 8);
-    ctx.fillText('2 (T_H, S_2)', s2 + 6, t_high_y - 8);
-    ctx.fillText('3 (T_L, S_2)', s2 + 6, t_low_y + 14);
-    ctx.fillText('4 (T_L, S_1)', s1 - 25, t_low_y + 14);
+    ctx.fillText('1 (Tₕ, S₁)', s1 - 25, t_high_y - 8);
+    ctx.fillText('2 (Tₕ, S₂)', s2 + 6, t_high_y - 8);
+    ctx.fillText('3 (Tₗ, S₂)', s2 + 6, t_low_y + 14);
+    ctx.fillText('4 (Tₗ, S₁)', s1 - 25, t_low_y + 14);
 
     // Calculate current tracer point on T-S
     let curTS_x = s1;
@@ -224,9 +224,9 @@ export const CarnotCycleSim: React.FC = () => {
     // Node labels on PV with state descriptions
     ctx.fillStyle = ct.textMain;
     ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('1 (P_max, V_min)', pt1.x - 14, pt1.y - 8);
+    ctx.fillText('1 (Pₘₐₓ, Vₘᵢₙ)', pt1.x - 14, pt1.y - 8);
     ctx.fillText('2', pt2.x + 8, pt2.y - 6);
-    ctx.fillText('3 (P_min, V_max)', pt3.x - 30, pt3.y + 16);
+    ctx.fillText('3 (Pₘᵢₙ, Vₘₐₓ)', pt3.x - 30, pt3.y + 16);
     ctx.fillText('4', pt4.x - 14, pt4.y + 14);
 
     // Process type annotations on P-V curves
@@ -234,7 +234,7 @@ export const CarnotCycleSim: React.FC = () => {
     ctx.fillStyle = ct.isLight ? '#b45309' : '#fbbf24';
     const mid12x = (pt1.x + pt2.x) / 2;
     const mid12y = (pt1.y + pt2.y) / 2;
-    ctx.fillText('1→2: Isothermal (T=T_H)', mid12x - 30, mid12y - 12);
+    ctx.fillText('1→2: Isothermal (T=Tₕ)', mid12x - 30, mid12y - 12);
     ctx.fillStyle = ct.isLight ? '#0369a1' : '#7dd3fc';
     const mid23x = (pt2.x + pt3.x) / 2;
     const mid23y = (pt2.y + pt3.y) / 2;
@@ -242,7 +242,7 @@ export const CarnotCycleSim: React.FC = () => {
     ctx.fillStyle = ct.isLight ? '#b45309' : '#fbbf24';
     const mid34x = (pt3.x + pt4.x) / 2;
     const mid34y = (pt3.y + pt4.y) / 2;
-    ctx.fillText('3→4: Isothermal (T=T_L)', mid34x - 30, mid34y + 16);
+    ctx.fillText('3→4: Isothermal (T=Tₗ)', mid34x - 30, mid34y + 16);
     ctx.fillStyle = ct.isLight ? '#0369a1' : '#7dd3fc';
     const mid41x = (pt4.x + pt1.x) / 2;
     const mid41y = (pt4.y + pt1.y) / 2;
@@ -253,7 +253,7 @@ export const CarnotCycleSim: React.FC = () => {
     const centerY = (pt1.y + pt2.y + pt3.y + pt4.y) / 4;
     ctx.fillStyle = ct.isLight ? '#047857' : '#34d399';
     ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('W_net', centerX - 15, centerY + 3);
+    ctx.fillText('Wₙₑₜ', centerX - 15, centerY + 3);
 
     // Calculate current tracer point on P-V
     let curPV_x = pt1.x;
@@ -322,21 +322,21 @@ export const CarnotCycleSim: React.FC = () => {
       <div className="bg-cyan-50/70 dark:bg-slate-950/80 border border-cyan-300 dark:border-cyan-500/30 rounded-xl p-3.5 space-y-1">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-cyan-700 dark:text-cyan-400 uppercase tracking-wider">
-            {stageDescriptions[currentStage].action}
+            <MathText text={stageDescriptions[currentStage].action} />
           </span>
           <span className="text-xs font-mono text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-500/10 px-2 py-0.5 rounded font-bold">
-            {stageDescriptions[currentStage].tempState}
+            <MathText text={stageDescriptions[currentStage].tempState} />
           </span>
         </div>
         <h5 className="text-sm font-bold text-slate-900 dark:text-white">{stageDescriptions[currentStage].name}</h5>
-        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{stageDescriptions[currentStage].detail}</p>
+        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed"><MathText text={stageDescriptions[currentStage].detail} /></p>
       </div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="bg-slate-50 dark:bg-slate-950/70 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
           <span className="text-xs text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1">
-            <Flame className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" /> High Temp (T_H)
+            <Flame className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" /> High Temp (<MathView math="T_H" />)
           </span>
           <div className="text-lg font-bold font-mono text-rose-600 dark:text-rose-400 mt-1">{tHigh} K</div>
           <span className="text-[10px] text-slate-500">{(tHigh - 273.15).toFixed(1)} °C</span>
@@ -344,7 +344,7 @@ export const CarnotCycleSim: React.FC = () => {
 
         <div className="bg-slate-50 dark:bg-slate-950/70 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
           <span className="text-xs text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1">
-            <Snowflake className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" /> Low Temp (T_L)
+            <Snowflake className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" /> Low Temp (<MathView math="T_L" />)
           </span>
           <div className="text-lg font-bold font-mono text-cyan-700 dark:text-cyan-400 mt-1">{tLow} K</div>
           <span className="text-[10px] text-slate-500">{(tLow - 273.15).toFixed(1)} °C</span>
@@ -353,22 +353,22 @@ export const CarnotCycleSim: React.FC = () => {
         <div className="bg-slate-50 dark:bg-slate-950/70 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
           <span className="text-xs text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1">
             <Gauge className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            {mode === 'engine' ? 'Carnot Efficiency (η)' : mode === 'refrigerator' ? 'COP_Refrigerator' : 'COP_HeatPump'}
+            {mode === 'engine' ? <>Carnot Efficiency (<MathView math="\eta" />)</> : <MathView math={mode === 'refrigerator' ? 'COP_R \\; (Refrigerator)' : 'COP_{HP} \\; (Heat\\ Pump)'} />}
           </span>
           <div className="text-lg font-bold font-mono text-emerald-700 dark:text-emerald-400 mt-1">
             {mode === 'engine' ? `${(efficiency * 100).toFixed(1)}%` : mode === 'refrigerator' ? copRef.toFixed(2) : copHP.toFixed(2)}
           </div>
           <span className="text-[10px] text-slate-500">
-            {mode === 'engine' ? 'η_max = 1 - T_L/T_H' : mode === 'refrigerator' ? 'T_L / (T_H - T_L)' : 'T_H / (T_H - T_L)'}
+            <MathView math={mode === 'engine' ? '\eta_{max} = 1 - T_L/T_H' : mode === 'refrigerator' ? 'T_L / (T_H - T_L)' : 'T_H / (T_H - T_L)'} />
           </span>
         </div>
 
         <div className="bg-slate-50 dark:bg-slate-950/70 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
           <span className="text-xs text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1">
-            <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Net Work (W_net)
+            <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Net Work (<MathView math="W_{net}" />)
           </span>
           <div className="text-lg font-bold font-mono text-amber-700 dark:text-amber-400 mt-1">{workNet.toFixed(1)} kJ</div>
-          <span className="text-[10px] text-slate-500">Q_in: {heatIn} kJ | Q_out: {heatOut.toFixed(1)} kJ</span>
+          <span className="text-[10px] text-slate-500"><MathView math="Q_{in}" />: {heatIn} kJ | <MathView math="Q_{out}" />: {heatOut.toFixed(1)} kJ</span>
         </div>
       </div>
 
@@ -377,9 +377,9 @@ export const CarnotCycleSim: React.FC = () => {
         <h5 className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
         <ul className="text-xs text-emerald-900 dark:text-emerald-300 space-y-1 leading-relaxed">
           <li>• Carnot cycle = 2 reversible isothermals + 2 reversible adiabatics (most efficient possible)</li>
-          <li>• T-S diagram is a <strong>rectangle</strong> (unique to Carnot); enclosed area = W_net</li>
-          <li>• η increases by raising T_H or lowering T_L. η = 100% is impossible (needs T_L = 0 K)</li>
-          <li>• COP_HP = 1 + COP_R (Heat Pump is always better than direct electric heating)</li>
+          <li>• T-S diagram is a <strong>rectangle</strong> (unique to Carnot); enclosed area = <MathView math="W_{net}" /></li>
+          <li>• <MathView math="\eta" /> increases by raising <MathView math="T_H" /> or lowering <MathView math="T_L" />. <MathView math="\eta = 100\%" /> is impossible (needs <MathView math="T_L = 0" /> K)</li>
+          <li>• <MathView math="COP_{HP} = 1 + COP_R" /> (Heat Pump is always better than direct electric heating)</li>
         </ul>
       </div>
 
@@ -387,7 +387,7 @@ export const CarnotCycleSim: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-200 dark:border-slate-800">
         <div className="space-y-1">
           <div className="flex justify-between text-xs font-semibold">
-            <span className="text-slate-800 dark:text-slate-300">Source Temperature (T_H):</span>
+            <span className="text-slate-800 dark:text-slate-300">Source Temperature (<MathView math="T_H" />):</span>
             <span className="font-mono text-rose-600 dark:text-rose-400 font-bold">{tHigh} K</span>
           </div>
           <input
@@ -403,7 +403,7 @@ export const CarnotCycleSim: React.FC = () => {
 
         <div className="space-y-1">
           <div className="flex justify-between text-xs font-semibold">
-            <span className="text-slate-800 dark:text-slate-300">Sink Temperature (T_L):</span>
+            <span className="text-slate-800 dark:text-slate-300">Sink Temperature (<MathView math="T_L" />):</span>
             <span className="font-mono text-cyan-700 dark:text-cyan-400 font-bold">{tLow} K</span>
           </div>
           <input

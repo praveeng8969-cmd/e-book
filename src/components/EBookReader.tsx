@@ -169,7 +169,7 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
             return (
               <span
                 key={idx}
-                className="inline-block px-1.5 py-0.5 mx-0.5 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xs rounded-md border border-slate-200/80 dark:border-white/10 font-mono text-cyan-700 dark:text-cyan-300 font-medium"
+                className="inline-block align-baseline px-1 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xs rounded-md border border-slate-200/80 dark:border-white/10 font-mono text-cyan-700 dark:text-cyan-300 font-medium"
               >
                 <MathView math={math} />
               </span>
