@@ -56,7 +56,7 @@ export function App() {
             isSidebarOpen={isSidebarOpen}
           />
 
-          <main className="flex-1 px-4 pt-2 pb-6 md:px-8 md:pt-3 md:pb-8 max-w-7xl w-full mx-auto">
+          <main className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 pt-2 md:pt-3 pb-8 pb-safe max-w-7xl w-full mx-auto">
             {currentView === 'reader' && (
               <EBookReader
                 chapter={currentChapter}

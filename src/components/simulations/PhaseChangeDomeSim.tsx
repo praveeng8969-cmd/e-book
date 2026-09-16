@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Layers, Droplet, Sun, Play, Pause, RotateCcw, Thermometer, Database, MousePointer, Activity } from 'lucide-react';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
 import { getCanvasTheme } from '../../utils/canvasTheme';
+import { RevisionCard } from '../RevisionCard';
+import { ObservationCallout } from '../ObservationCallout';
 
 export const PhaseChangeDomeSim: React.FC = () => {
   const { isDark } = useTheme();
@@ -325,14 +327,14 @@ export const PhaseChangeDomeSim: React.FC = () => {
       {/* Title & Badge */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/30">
+          <div className="p-2.5 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/30">
             <Droplet className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="card-heading text-slate-900 dark:text-white">
               Water Phase Dome Lab: <MathView math="T-v" /> Diagram & Vapor Quality (<MathView math="x" />)
             </h3>
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+            <p className="secondary-text text-slate-600 dark:text-slate-400">
               Interactive draggable state point: Subcooled Liquid, Saturated Mixture (0 &lt; x &lt; 1), and Superheated Vapor.
             </p>
           </div>
@@ -344,10 +346,10 @@ export const PhaseChangeDomeSim: React.FC = () => {
             setTempC(180);
             setSpecVol(0.05);
           }}
-          className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          className="w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
           title="Reset State"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <RotateCcw className="w-5 h-5" />
         </button>
       </div>
 
@@ -373,8 +375,8 @@ export const PhaseChangeDomeSim: React.FC = () => {
       {/* Sliders for Pressure, Temperature, Spec Volume */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Pressure Slider */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
-          <div className="flex justify-between items-center text-xs">
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+          <div className="flex justify-between items-center text-sm">
             <span className="font-semibold text-amber-600 dark:text-amber-400">Pressure (<MathView math="P" />)</span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">
               {pressureBar} bar (<MathView math="T_{sat}" /> = {tSatC}°C)
@@ -387,17 +389,17 @@ export const PhaseChangeDomeSim: React.FC = () => {
             step="1"
             value={pressureBar}
             onChange={(e) => setPressureBar(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-amber-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>1 bar (100°C)</span>
             <span>150 bar (342°C)</span>
           </div>
         </div>
 
         {/* Temperature Slider */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
-          <div className="flex justify-between items-center text-xs">
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+          <div className="flex justify-between items-center text-sm">
             <span className="font-semibold text-rose-600 dark:text-rose-400">Temperature (<MathView math="T" />)</span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{tempC} °C</span>
           </div>
@@ -408,17 +410,17 @@ export const PhaseChangeDomeSim: React.FC = () => {
             step="5"
             value={tempC}
             onChange={(e) => setTempC(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-rose-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>20°C (Subcooled)</span>
             <span>450°C (Superheated)</span>
           </div>
         </div>
 
         {/* Specific Volume Slider */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
-          <div className="flex justify-between items-center text-xs">
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+          <div className="flex justify-between items-center text-sm">
             <span className="font-semibold text-teal-600 dark:text-teal-400">Specific Volume (<MathView math="v" />)</span>
             <span className="font-mono font-bold text-teal-600 dark:text-teal-400">{specVol.toFixed(4)} m³/kg</span>
           </div>
@@ -429,9 +431,9 @@ export const PhaseChangeDomeSim: React.FC = () => {
             step="0.005"
             value={specVol}
             onChange={(e) => setSpecVol(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-teal-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>0.001 m³/kg (Liquid)</span>
             <span>0.5 m³/kg (Vapor)</span>
           </div>
@@ -444,19 +446,19 @@ export const PhaseChangeDomeSim: React.FC = () => {
           <div className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
             Identified Thermodynamic Phase State
           </div>
-          <div className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-0.5">
+          <div className="card-heading text-slate-900 dark:text-white mt-0.5">
             {regionName}
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-xs font-mono">
-          <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
+        <div className="flex items-center gap-3 text-sm font-mono">
+          <div className="px-3.5 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
             <span className="text-slate-600 dark:text-slate-400">Dryness Fraction <MathView math="x" />: </span>
             <span className="font-bold text-teal-600 dark:text-teal-400">
               {qualityX !== null ? qualityX : 'N/A'}
             </span>
           </div>
-          <div className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="px-3.5 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
             <span className="text-slate-600 dark:text-slate-400">Enthalpy <MathView math="h" />: </span>
             <span className="font-bold text-slate-800 dark:text-slate-200">
               {(4.187 * tempC + (qualityX || 0) * 2200).toFixed(1)} kJ/kg
@@ -465,16 +467,58 @@ export const PhaseChangeDomeSim: React.FC = () => {
         </div>
       </div>
 
-      {/* Key Takeaway Box */}
-      <div className="bg-teal-50/70 dark:bg-teal-500/5 border border-teal-200 dark:border-teal-500/20 rounded-xl p-3.5">
-        <h5 className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
-        <ul className="text-xs text-teal-900 dark:text-teal-300 space-y-1 leading-relaxed">
-          <li>• During boiling (wet region), both T and P remain <strong>constant</strong> — all heat goes into latent heat <MathView math="h_{fg}" /></li>
-          <li>• Quality <MathView math="x = m_{vapor} / m_{total}" />. Use it to interpolate: <MathView math="v = v_f + x v_{fg}" />, <MathView math="h = h_f + x h_{fg}" /></li>
-          <li>• At the <strong>Critical Point</strong> (374°C, 221.2 bar): <MathView math="h_{fg} = 0" />, liquid transforms directly to vapor</li>
-          <li>• <strong>State ID</strong>: Compare <MathView math="T" /> with <MathView math="T_{sat}" /> (or <MathView math="v" /> with <MathView math="v_f, v_g" />) to identify subcooled / wet / superheated</li>
-        </ul>
-      </div>
+      {/* Pedagogical Observe / Reason / Exam Takeaway Callout */}
+      <ObservationCallout
+        observe="Inside the vapor dome (wet region), temperature and pressure remain locked at constant saturation values while specific volume increases by orders of magnitude as liquid boils into vapor."
+        reason="Phase change requires breaking intermolecular hydrogen bonds, absorbing latent heat of vaporization ($h_{fg}$) without changing molecular kinetic energy (temperature). Once saturated vapor ($x=1$) is reached, further heat addition increases sensible heat and temperature (superheated vapor)."
+        takeaway="Vapor quality $x$ is defined ONLY inside the saturation dome ($0 \le x \le 1$). Use the lever rule: $y = y_f + x(y_g - y_f) = y_f + x y_{fg}$ for any specific property ($v, u, h, s$)."
+        governingEquation="x = \frac{m_{\text{vapor}}}{m_{\text{total}}} \quad \text{and} \quad y = y_f + x(y_g - y_f)"
+        stateValues={[
+          { label: 'T', value: `${tempC}`, unit: '°C' },
+          { label: 'P_sat', value: `${pressureBar.toFixed(2)}`, unit: 'bar' },
+          { label: 'v', value: `${specVol.toFixed(4)}`, unit: 'm³/kg', highlight: true },
+        ]}
+      />
+
+      {/* Standardized 5-Part Quick Revision Card */}
+      <RevisionCard
+        title="Pure Substance Phase Transformation & Vapor Quality (x)"
+        badge="PURE SUBSTANCE REVISION"
+        explanation="Pure substances transition between subcooled liquid, wet liquid-vapor mixture, and superheated vapor regimes along constant-pressure isobaric lines. Inside the two-phase dome, temperature and pressure are mutually dependent ($T = T_{\text{sat}}(P)$)."
+        equation="y = y_f + x \left(y_g - y_f\right) = y_f + x y_{fg} \quad (y \in \{v, u, h, s\})"
+        secondaryEquation="x = \frac{m_{\text{vapor}}}{m_{\text{liquid}} + m_{\text{vapor}}} = \frac{y - y_f}{y_g - y_f} \quad (0 \le x \le 1)"
+        specialCases={[
+          {
+            label: '1. Saturated Liquid (x = 0)',
+            condition: 'y = y_f, \; T = T_{\text{sat}}',
+            result: 'Substance is 100% liquid at the boiling threshold. Any heat addition immediately initiates vapor bubble formation.',
+          },
+          {
+            label: '2. Saturated Vapor (x = 1)',
+            condition: 'y = y_g, \; T = T_{\text{sat}}',
+            result: 'Substance is 100% dry vapor at dew point. Any heat removal causes immediate condensation droplets.',
+          },
+          {
+            label: '3. Critical Point of Water',
+            condition: 'T_c = 373.95^\circ\text{C}, \; P_c = 220.64\text{ bar}',
+            result: 'Saturated liquid and vapor states merge ($v_f = v_g$); latent heat vanishes ($h_{fg} = 0$). Liquid transforms into vapor without boiling.',
+          },
+          {
+            label: '4. Superheated Vapor',
+            condition: 'T > T_{\text{sat}}(P) \quad \text{or} \quad v > v_g',
+            result: 'Vapor is heated beyond saturation. Behavior approaches ideal gas law at low pressures ($P \ll P_c$). Quality x is undefined.',
+          },
+        ]}
+        symbols={[
+          { symbol: 'x', name: 'Dryness Fraction / Vapor Quality', unit: 'Dimensionless [0 to 1]', description: 'Mass ratio of dry saturated vapor to total mixture mass' },
+          { symbol: 'y_f', name: 'Saturated Liquid Property', unit: 'kJ/kg or m³/kg', description: 'Specific property evaluated on the bubble-point line (x = 0)' },
+          { symbol: 'y_g', name: 'Saturated Vapor Property', unit: 'kJ/kg or m³/kg', description: 'Specific property evaluated on the dew-point line (x = 1)' },
+          { symbol: 'y_{fg}', name: 'Latent Property Difference', unit: 'y_g - y_f', description: 'Property increase during complete vaporization across saturation dome' },
+        ]}
+        takeaway="Inside the wet dome, degrees of freedom $F = C - P + 2 = 1 - 2 + 2 = 1$ (by Gibbs Phase Rule). Temperature and pressure are NOT independent; fixing pressure automatically fixes saturation temperature."
+        validity="Valid for equilibrium states of pure, single-component simple compressible substances (such as H₂O or R134a) undergoing liquid-vapor phase change."
+        variant="cyan"
+      />
     </div>
   );
 };

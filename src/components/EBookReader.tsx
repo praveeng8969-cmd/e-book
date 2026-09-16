@@ -150,26 +150,44 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
             const matched = findMatchingFormula(math);
             if (matched) {
               return (
-                <div key={idx} className="my-4">
+                <div key={idx} className="my-5">
                   <FormulaCard formula={matched} badge="FORMULA" />
                 </div>
               );
             }
             return (
-              <span
+              <div
                 key={idx}
-                className="block my-2 text-center py-2 px-3 bg-white/70 dark:bg-white/[0.06] backdrop-blur-xs rounded-xl border border-slate-200/80 dark:border-white/10 text-cyan-800 dark:text-cyan-300 font-mono overflow-x-auto shadow-xs"
+                className="my-4 text-center py-3.5 px-4 bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-slate-100 overflow-x-auto shadow-xs"
               >
                 <MathView math={math} block />
-              </span>
+              </div>
             );
           }
           if (part.startsWith('$') && part.endsWith('$')) {
             const math = part.slice(1, -1).trim();
+            // If the math contains fractions or derivatives, elevate to display block with horizontal scroll to prevent vertical compression
+            const isTall =
+              math.includes('\\frac') ||
+              math.includes('\\dfrac') ||
+              math.includes('\\partial') ||
+              (math.includes('=') && math.length > 25);
+
+            if (isTall) {
+              return (
+                <div
+                  key={idx}
+                  className="my-3 text-center py-2.5 px-3 bg-white dark:bg-slate-900/90 rounded-xl border border-slate-200/80 dark:border-slate-800/80 text-slate-900 dark:text-slate-100 overflow-x-auto shadow-2xs"
+                >
+                  <MathView math={math} block />
+                </div>
+              );
+            }
+
             return (
               <span
                 key={idx}
-                className="inline-block align-baseline px-1 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xs rounded-md border border-slate-200/80 dark:border-white/10 font-mono text-cyan-700 dark:text-cyan-300 font-medium"
+                className="inline-block align-baseline mx-0.5 text-teal-800 dark:text-teal-300 font-medium"
               >
                 <MathView math={math} />
               </span>
@@ -484,9 +502,9 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
     if (!simComponent) return null;
 
     return (
-      <div className="my-8 rounded-3xl border border-teal-500/30 bg-slate-50/80 dark:bg-slate-950/70 p-4 sm:p-6 md:p-7 shadow-lg dark:shadow-2xl overflow-hidden backdrop-blur-xs">
-        <div className="flex items-center gap-2 mb-4 pb-2 border-b border-teal-500/20 text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-          <Sparkles className="w-4 h-4 text-teal-500 animate-pulse" />
+      <div className="my-6 rounded-2xl sm:rounded-3xl border border-teal-500/30 bg-slate-50/80 dark:bg-slate-950/70 p-3.5 sm:p-4 md:p-5 lg:p-6 shadow-md dark:shadow-2xl overflow-hidden backdrop-blur-xs">
+        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-teal-500/20 text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
+          <Sparkles className="w-4 h-4 text-teal-500 shrink-0" />
           <span>Interactive Thermodynamics Lab & Visual Simulator</span>
         </div>
         {simComponent}
@@ -495,26 +513,26 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
   };
 
   return (
-    <div className="space-y-5 max-w-5xl mx-auto">
+    <div className="space-y-4 md:space-y-6 max-w-5xl mx-auto">
       {/* Chapter Banner with Integrated Search */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-5 md:p-6 shadow-sm dark:shadow-2xl space-y-3.5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 md:p-5 shadow-xs dark:shadow-xl space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 dark:bg-[#14B8A6] dark:text-[#0F172A] border border-teal-200 dark:border-teal-500">
+              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 dark:bg-[#14B8A6] dark:text-[#0F172A] border border-teal-200 dark:border-teal-500">
                 Chapter {chapter.id}
               </span>
             </div>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-[#F8FAFC] heading-title tracking-tight">
+            <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-slate-900 dark:text-[#F8FAFC] heading-title tracking-tight leading-[1.25]">
               {chapter.title}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
+            <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-[1.45]">
               {chapter.subtitle}
             </p>
           </div>
         </div>
 
-        {/* Search Box */}
+        {/* Search Box (16px input to prevent mobile auto-zoom) */}
         <div className="relative flex items-center">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
           <input
@@ -522,16 +540,16 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search topic, equation, parameter, or keyword in this chapter..."
-            className="w-full pl-10 pr-24 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
+            className="w-full pl-10 pr-24 py-2.5 min-h-[44px] rounded-xl text-base bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-teal-500 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-colors"
           />
           {searchQuery ? (
             <div className="absolute right-2.5 flex items-center gap-2">
-              <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-950/70 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-950/70 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
                 {totalMatchesInChapter} {totalMatchesInChapter === 1 ? 'match' : 'matches'}
               </span>
               <button
                 onClick={() => setSearchQuery('')}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
                 title="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
@@ -542,22 +560,22 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
       </div>
 
       {/* Main Chapter Content: All Sections in One Continuous View */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 shadow-sm dark:shadow-xl space-y-10">
-        {chapter.sections.map((section, secIdx) => (
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 md:p-6 shadow-xs dark:shadow-xl space-y-6 md:space-y-8">
+        {chapter.sections.map((section) => (
           <article
             key={section.id}
             id={`section-${section.id}`}
-            className="space-y-6 pt-8 first:pt-0 border-t border-slate-200/70 dark:border-slate-800/80 first:border-t-0"
+            className="space-y-4 pt-6 first:pt-0 border-t border-slate-200/70 dark:border-slate-800/80 first:border-t-0"
           >
             {/* Section Header */}
-            <div className="pb-3 border-b border-slate-100 dark:border-slate-800/60">
-              <h2 className="text-base md:text-lg lg:text-xl font-bold text-slate-900 dark:text-[#F8FAFC]">
+            <div className="pb-2.5 border-b border-slate-100 dark:border-slate-800/60">
+              <h2 className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-slate-900 dark:text-[#F8FAFC] leading-[1.3]">
                 {renderFormattedLine(section.title)}
               </h2>
             </div>
 
-            {/* Section Content Elements */}
-            <div className="space-y-4 text-slate-800 dark:text-slate-200 leading-relaxed font-sans text-sm md:text-base">
+            {/* Section Content Elements (Standard 16px Body Text) */}
+            <div className="space-y-3.5 text-slate-800 dark:text-slate-200 leading-[1.55] font-sans text-[16px]">
               {parseSectionBlocks(section.content).map((block, bIdx) => {
                 // Check if heading
                 if (block.type === 'heading') {
@@ -565,7 +583,7 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
                     return (
                       <h3
                         key={bIdx}
-                        className="text-base md:text-lg font-bold accent-heading pt-4 border-t border-slate-100 dark:border-slate-800/60 first:border-t-0 first:pt-0"
+                        className="text-[18px] md:text-[20px] font-bold accent-heading pt-4 pb-1 border-t border-slate-100 dark:border-slate-800/60 first:border-t-0 first:pt-0 leading-[1.3]"
                       >
                         {renderFormattedLine(block.text)}
                       </h3>
@@ -574,7 +592,7 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
                   return (
                     <h4
                       key={bIdx}
-                      className="text-sm md:text-base font-bold text-slate-900 dark:text-[#F8FAFC] pt-3 pb-1"
+                      className="text-[18px] font-bold text-slate-900 dark:text-[#F8FAFC] pt-3 pb-1 leading-[1.3]"
                     >
                       {renderFormattedLine(block.text)}
                     </h4>
@@ -592,7 +610,7 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
                   return (
                     <div
                       key={bIdx}
-                      className="bg-white/70 dark:bg-white/[0.06] backdrop-blur-xs p-4 rounded-2xl border border-slate-200/80 dark:border-white/10 text-center overflow-x-auto my-4 shadow-xs text-cyan-900 dark:text-cyan-300"
+                      className="bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 text-center overflow-x-auto my-4 shadow-xs text-slate-900 dark:text-slate-100"
                     >
                       <MathView math={block.math} block />
                     </div>
@@ -606,12 +624,12 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
 
                 // Bullet points or normal text
                 return (
-                  <div key={bIdx} className="space-y-1.5">
+                  <div key={bIdx} className="space-y-2">
                     {block.lines.map((line, lIdx) => {
                       const trimmedLine = line.trim();
                       if (/^#{1,6}\s*/.test(trimmedLine)) {
                         return (
-                          <h4 key={lIdx} className="font-bold text-slate-900 dark:text-[#F8FAFC] pt-3 pb-1 text-sm md:text-base">
+                          <h4 key={lIdx} className="font-bold text-slate-900 dark:text-[#F8FAFC] pt-3 pb-1 text-[18px] leading-[1.3]">
                             {renderFormattedLine(trimmedLine.replace(/^#{1,6}\s*/, ''))}
                           </h4>
                         );
@@ -619,8 +637,8 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
                       if (trimmedLine.startsWith('- ')) {
                         return (
                           <div key={lIdx} className="flex items-start gap-2.5 pl-2 py-0.5">
-                            <span className="text-teal-600 dark:text-[#5EEAD4] mt-1 font-bold text-sm shrink-0">•</span>
-                            <span className="flex-1 text-slate-800 dark:text-slate-200 leading-relaxed">
+                            <span className="text-teal-600 dark:text-[#5EEAD4] mt-1 font-bold text-base shrink-0">•</span>
+                            <span className="flex-1 text-slate-800 dark:text-slate-200 leading-[1.55]">
                               {renderFormattedLine(trimmedLine.slice(2))}
                             </span>
                           </div>
@@ -628,16 +646,16 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
                       }
                       if (trimmedLine.startsWith('* ')) {
                         return (
-                          <div key={lIdx} className="flex items-start gap-2.5 pl-6 py-0.5">
-                            <span className="text-emerald-600 dark:text-emerald-400 mt-1 font-bold text-xs shrink-0">◦</span>
-                            <span className="flex-1 text-slate-700 dark:text-slate-300 leading-relaxed">
+                          <div key={lIdx} className="flex items-start gap-2.5 pl-5 py-0.5">
+                            <span className="text-teal-500 dark:text-teal-400 mt-1 font-bold text-sm shrink-0">◦</span>
+                            <span className="flex-1 text-slate-700 dark:text-slate-300 leading-[1.55]">
                               {renderFormattedLine(trimmedLine.slice(2))}
                             </span>
                           </div>
                         );
                       }
                       return (
-                        <div key={lIdx} className="leading-relaxed text-slate-800 dark:text-slate-200">
+                        <div key={lIdx} className="leading-[1.55] text-slate-800 dark:text-slate-200">
                           {renderFormattedLine(line)}
                         </div>
                       );
@@ -654,24 +672,24 @@ export const EBookReader: React.FC<EBookReaderProps> = ({
       </div>
 
       {/* Chapter Pagination Footer */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
         <button
           disabled={!hasPrevChapter}
           onClick={onPrevChapter}
-          className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 transition-all"
+          className="min-h-[44px] px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 transition-all"
         >
           <ChevronLeft className="w-4 h-4" />
           <span>Previous Chapter</span>
         </button>
 
-        <span className="text-xs text-slate-500 font-mono">
+        <span className="text-xs sm:text-sm text-slate-500 font-mono">
           Chapter {chapter.id} of 9
         </span>
 
         <button
           disabled={!hasNextChapter}
           onClick={onNextChapter}
-          className="px-5 py-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-950 border border-teal-600 dark:bg-teal-500/20 dark:hover:bg-teal-500/30 dark:border-teal-400/80 dark:text-white disabled:opacity-30 disabled:cursor-not-allowed text-xs font-extrabold flex items-center gap-2 transition-all shadow-xs"
+          className="min-h-[44px] px-4 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-950 border border-teal-600 dark:bg-teal-500/20 dark:hover:bg-teal-500/30 dark:border-teal-400/80 dark:text-white disabled:opacity-30 disabled:cursor-not-allowed text-sm font-extrabold flex items-center gap-2 transition-all shadow-xs"
         >
           <span className="text-teal-950 dark:text-white">Next Chapter</span>
           <ChevronRight className="w-4 h-4 text-teal-800 dark:text-white" />

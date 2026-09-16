@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { BatteryCharging, Flame, Wind, RotateCcw, Activity, ArrowRight, ShieldAlert, Sparkles } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
+import { RevisionCard } from '../RevisionCard';
+import { ObservationCallout } from '../ObservationCallout';
 
 export const ExergyDeadStateSim: React.FC = () => {
   const { isDark } = useTheme();
@@ -284,30 +286,54 @@ export const ExergyDeadStateSim: React.FC = () => {
         </div>
       </div>
 
-      {/* Key Takeaway Box */}
-      <div className="bg-amber-50/70 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3.5 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300">
-          <span>⚡</span> Quick Revision — Exergy & Availability
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Dead State (<MathView math="T_0, P_0" />):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">When system reaches complete thermodynamic equilibrium with surroundings, Exergy = 0. No work can be extracted.</div>
-          </div>
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Heat Transfer Exergy:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
-              <MathView math="X_Q = Q(1 - T_0/T) = W_{max}" />. Anergy <MathView math="UAE = Q - X_Q = T_0 \Delta S" />.
-            </div>
-          </div>
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-amber-100 dark:border-amber-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Gouy-Stodola Theorem:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
-              Exergy destruction <MathView math="I = T_0 S_{gen} \ge 0" />. Exergy is always consumed in real irreversible processes.
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Pedagogical Observe / Reason / Exam Takeaway Callout */}
+      <ObservationCallout
+        observe="As source temperature T approaches ambient dead state T₀ (298.15 K), available exergy drops to zero, even if the total thermal energy Q is huge."
+        reason="Exergy is NOT energy; it is the maximum work potential of energy relative to an environmental reference state ($T_0, P_0$). When a thermal reservoir reaches $T_0$, it cannot operate any heat engine because $\eta_{\text{Carnot}} = 1 - T_0/T_0 = 0$."
+        takeaway="Exergy of heat transfer: $X_Q = Q\left(1 - \frac{T_0}{T}\right)$. Energy is strictly conserved (First Law), but exergy is permanently destroyed in every real irreversible process (Second Law)."
+        governingEquation="X_Q = Q\left(1 - \frac{T_0}{T}\right) \quad \text{and} \quad \text{Energy} = \text{Exergy} + \text{Anergy}"
+        stateValues={[
+          { label: 'Exergy (Available)', value: `${exergyKJ.toFixed(1)}`, unit: 'kJ', highlight: true },
+          { label: 'Anergy (Unavailable)', value: `${anergyKJ.toFixed(1)}`, unit: 'kJ' },
+          { label: 'Carnot Factor', value: `${(carnotFactor * 100).toFixed(1)}%` },
+        ]}
+      />
+
+      {/* Standardized 5-Part Quick Revision Card */}
+      <RevisionCard
+        title="Exergy, Anergy & Environmental Dead State Equilibrium"
+        badge="EXERGY & AVAILABILITY REVISION"
+        explanation="Exergy represents the maximum theoretical useful work that can be extracted from a system as it is brought into complete thermomechanical and chemical equilibrium with an unconstrained reference environment known as the dead state ($T_0, P_0$)."
+        equation="X_Q = W_{\text{max}} = Q\left(1 - \frac{T_0}{T}\right) \quad \text{and} \quad Q = \text{Exergy} + \text{Anergy}"
+        secondaryEquation="\text{Closed System Exergy: } \Phi = (U - U_0) + P_0(V - V_0) - T_0(S - S_0)"
+        specialCases={[
+          {
+            label: '1. Dead State Equilibrium',
+            condition: 'T = T_0, \; P = P_0 \implies X = 0',
+            result: 'When in mutual equilibrium with ambient atmosphere, work potential is strictly zero. All remaining energy is unavailable anergy.',
+          },
+          {
+            label: '2. High-Temperature Heat Source',
+            condition: 'T \gg T_0 \implies \eta \to 1',
+            result: 'A higher temperature heat source provides higher thermodynamic quality. Nearly all of Q can be converted into useful mechanical work.',
+          },
+          {
+            label: '3. Exergy Destruction (Irreversibility)',
+            condition: 'X_{\text{destroyed}} = I = T_0 S_{\text{gen}} \ge 0',
+            result: 'Whenever a real process occurs, exergy is permanently destroyed by irreversibilities like fluid friction, finite ΔT heat conduction, or unrestrained mixing.',
+          },
+        ]}
+        symbols={[
+          { symbol: 'X_Q', name: 'Thermal Exergy / Available Energy', unit: 'kJ', description: 'Maximum theoretical work obtainable by operating a Carnot engine to T0' },
+          { symbol: 'Q', name: 'Total Thermal Energy', unit: 'kJ', description: 'Sum of high-grade available exergy and low-grade unavailable anergy' },
+          { symbol: 'T_0', name: 'Dead State Temperature', unit: 'Kelvin [K]', description: 'Temperature of ambient atmosphere (standard reference: 298.15 K / 25°C)' },
+          { symbol: 'T', name: 'Source Temperature', unit: 'Kelvin [K]', description: 'Absolute temperature of the heat supplying reservoir' },
+          { symbol: 'Anergy', name: 'Unavailable Energy (UAE)', unit: 'kJ', description: 'Energy that must be rejected to the environment as waste: T0 ΔS' },
+        ]}
+        takeaway="First Law efficiency $\eta_I = \frac{\text{Desired Energy Output}}{\text{Energy Input}}$ can be misleading because it treats all Joules as equal. Second Law efficiency $\eta_{II} = \frac{\text{Exergy Recovered}}{\text{Exergy Supplied}}$ measures how close an engineering system operates to thermodynamic perfection."
+        validity="Applies to any thermodynamic system interacting with a large, mutually equilibrium environment at constant temperature T0 and pressure P0."
+        variant="amber"
+      />
     </div>
   );
 };

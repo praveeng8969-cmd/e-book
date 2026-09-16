@@ -37,19 +37,19 @@ export const FormulaCheatSheet: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Search & Filter Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4">
-        <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 md:p-5 shadow-xs dark:shadow-xl space-y-3.5">
+        <div className="flex flex-col lg:flex-row gap-3 md:gap-4 justify-between items-start lg:items-center">
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+            <h2 className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-slate-900 dark:text-white flex items-center gap-2 leading-[1.3]">
+              <BookOpen className="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0" />
               Master Thermodynamics Formula Vault
             </h2>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-            {/* Search bar */}
+            {/* Search bar (16px to prevent mobile iOS auto-zoom) */}
             <div className="relative flex-1 sm:w-80">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
@@ -57,12 +57,12 @@ export const FormulaCheatSheet: React.FC = () => {
                 placeholder="Search formulas (e.g. Boyle, Charles, Carnot, SFEE)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-8 py-2.5 min-h-[44px] text-base text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 min-h-[32px] min-w-[32px] flex items-center justify-center"
                 >
                   ✕
                 </button>
@@ -72,11 +72,11 @@ export const FormulaCheatSheet: React.FC = () => {
         </div>
 
         {/* Chapter Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs scrollbar-thin">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-sm scrollbar-thin">
           <Filter className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
           <button
             onClick={() => setSelectedChapterId('all')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium transition-all ${
+            className={`min-h-[40px] px-3.5 py-1.5 rounded-xl whitespace-nowrap font-medium transition-all ${
               selectedChapterId === 'all'
                 ? 'label-banner bg-teal-600 text-white dark:bg-[#14B8A6] dark:text-[#0F172A] border border-teal-600 dark:border-[#14B8A6] font-bold shadow-xs'
                 : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:text-slate-950 dark:hover:text-white'
@@ -88,7 +88,7 @@ export const FormulaCheatSheet: React.FC = () => {
             <button
               key={chap.id}
               onClick={() => setSelectedChapterId(chap.id)}
-              className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium transition-all ${
+              className={`min-h-[40px] px-3.5 py-1.5 rounded-xl whitespace-nowrap font-medium transition-all ${
                 selectedChapterId === chap.id
                   ? 'label-banner bg-teal-600 text-white dark:bg-[#14B8A6] dark:text-[#0F172A] border border-teal-600 dark:border-[#14B8A6] font-bold shadow-xs'
                   : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:text-slate-950 dark:hover:text-white'

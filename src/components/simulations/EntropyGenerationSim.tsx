@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Network, Zap, Flame, Snowflake, ArrowRight, Activity, RotateCcw, AlertTriangle } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceDot, AreaChart, Area } from 'recharts';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
 import { getCanvasTheme } from '../../utils/canvasTheme';
+import { RevisionCard } from '../RevisionCard';
+import { ObservationCallout } from '../ObservationCallout';
+import { useSimulationAnimation } from '../../utils/useSimulationAnimation';
 
 export const EntropyGenerationSim: React.FC = () => {
   const { isDark } = useTheme();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { shouldAnimate } = useSimulationAnimation(containerRef);
   const [tempSource, setTempSource] = useState<number>(600); // K (High Temp T_H)
   const [tempSink, setTempSink] = useState<number>(300); // K (Low Temp T_L)
   const [heatAmount, setHeatAmount] = useState<number>(1200); // kJ (Q)
@@ -146,14 +151,16 @@ export const EntropyGenerationSim: React.FC = () => {
         bannerY + 6
       );
 
-      if (isConducting) {
+      if (isConducting && shouldAnimate) {
         animId = requestAnimationFrame(render);
       }
     };
 
-    animId = requestAnimationFrame(render);
+    if (shouldAnimate) {
+      animId = requestAnimationFrame(render);
+    }
     return () => cancelAnimationFrame(animId);
-  }, [tempSource, tempSink, heatAmount, deadStateTemp, isConducting, isDark, deltaS_source, deltaS_sink, entropyGenerated, deltaT]);
+  }, [tempSource, tempSink, heatAmount, deadStateTemp, isConducting, shouldAnimate, isDark, deltaS_source, deltaS_sink, entropyGenerated, deltaT]);
 
   // Recharts data curve showing S_gen vs Delta T (from Delta T = 0 to 600K with fixed T_L)
   const sGenCurveData = useMemo(() => {
@@ -170,18 +177,18 @@ export const EntropyGenerationSim: React.FC = () => {
   }, [heatAmount, tempSink]);
 
   return (
-    <div className="space-y-6">
+    <div ref={containerRef} className="space-y-6">
       {/* Title & Badge */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/30">
+          <div className="p-2.5 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/30">
             <Network className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="card-heading text-slate-900 dark:text-white">
               Entropy Generation (<MathView math="\Delta S_{univ} = S_{gen}" />) & Irreversibility Lab
             </h3>
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+            <p className="secondary-text text-slate-600 dark:text-slate-400">
               Spontaneous heat transfer across a finite temperature difference <MathView math="\Delta T" /> generating entropy (<MathView math="S_{gen} > 0" />).
             </p>
           </div>
@@ -194,10 +201,10 @@ export const EntropyGenerationSim: React.FC = () => {
             setHeatAmount(1200);
             setDeadStateTemp(298.15);
           }}
-          className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          className="w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
           title="Reset Simulation"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <RotateCcw className="w-5 h-5" />
         </button>
       </div>
 
@@ -277,10 +284,10 @@ export const EntropyGenerationSim: React.FC = () => {
       {/* Sliders for T_H, T_L, Q */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Hot Reservoir Temp */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-rose-500/20 space-y-2">
-          <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5" /> Source Temp (<MathView math="T_H" />)
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-rose-500/20 space-y-2">
+          <div className="flex justify-between items-center text-sm">
+            <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+              <Flame className="w-4 h-4" /> Source Temp (<MathView math="T_H" />)
             </span>
             <span className="font-mono font-bold text-rose-600 dark:text-rose-400">{tempSource} K</span>
           </div>
@@ -291,19 +298,19 @@ export const EntropyGenerationSim: React.FC = () => {
             step="10"
             value={tempSource}
             onChange={(e) => setTempSource(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-rose-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>{tempSink + 5} K</span>
             <span>1200 K (927°C)</span>
           </div>
         </div>
 
         {/* Cold Reservoir Temp */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-cyan-500/20 space-y-2">
-          <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-1">
-              <Snowflake className="w-3.5 h-3.5" /> Sink Temp (<MathView math="T_L" />)
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-cyan-500/20 space-y-2">
+          <div className="flex justify-between items-center text-sm">
+            <span className="font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5">
+              <Snowflake className="w-4 h-4" /> Sink Temp (<MathView math="T_L" />)
             </span>
             <span className="font-mono font-bold text-cyan-600 dark:text-cyan-400">{tempSink} K</span>
           </div>
@@ -314,19 +321,19 @@ export const EntropyGenerationSim: React.FC = () => {
             step="10"
             value={tempSink}
             onChange={(e) => setTempSink(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-cyan-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>100 K (-173°C)</span>
             <span>{tempSource - 5} K</span>
           </div>
         </div>
 
         {/* Heat Quantity Q */}
-        <div className="bg-white/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-amber-500/20 space-y-2">
-          <div className="flex justify-between items-center text-xs">
-            <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5" /> Heat Flow (<MathView math="Q" />)
+        <div className="bg-white/80 dark:bg-slate-900/60 p-4 rounded-xl border border-amber-500/20 space-y-2">
+          <div className="flex justify-between items-center text-sm">
+            <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+              <Zap className="w-4 h-4" /> Heat Flow (<MathView math="Q" />)
             </span>
             <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{heatAmount} kJ</span>
           </div>
@@ -337,9 +344,9 @@ export const EntropyGenerationSim: React.FC = () => {
             step="100"
             value={heatAmount}
             onChange={(e) => setHeatAmount(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+            className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-amber-500 touch-pan-y"
           />
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+          <div className="flex justify-between secondary-text text-slate-500 dark:text-slate-400 font-mono">
             <span>200 kJ</span>
             <span>3000 kJ</span>
           </div>
@@ -348,46 +355,83 @@ export const EntropyGenerationSim: React.FC = () => {
 
       {/* Numerical Exergy & Entropy Readout Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Universe Entropy Gen</div>
-          <div className="text-base font-bold font-mono text-amber-600 dark:text-amber-400">
+        <div className="p-3.5 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Universe Entropy Gen</div>
+          <div className="text-lg sm:text-xl font-bold font-mono text-amber-600 dark:text-amber-400 mt-1">
             {entropyGenerated.toFixed(4)} kJ/K
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400"><MathView math="S_{gen} = Q(1/T_L - 1/T_H)" /></div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5"><MathView math="S_{gen} = Q(1/T_L - 1/T_H)" /></div>
         </div>
-        <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Exergy Destroyed (<MathView math="I" />)</div>
-          <div className="text-base font-bold font-mono text-rose-600 dark:text-rose-400">
+        <div className="p-3.5 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Exergy Destroyed (<MathView math="I" />)</div>
+          <div className="text-lg sm:text-xl font-bold font-mono text-rose-600 dark:text-rose-400 mt-1">
             {exergyDestroyed.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">Gouy-Stodola: <MathView math="I = T_0 S_{gen}" /></div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">Gouy-Stodola: <MathView math="I = T_0 S_{gen}" /></div>
         </div>
-        <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Initial Avail. Energy</div>
-          <div className="text-base font-bold font-mono text-teal-600 dark:text-teal-400">
+        <div className="p-3.5 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Initial Avail. Energy</div>
+          <div className="text-lg sm:text-xl font-bold font-mono text-teal-600 dark:text-teal-400 mt-1">
             {ae_initial.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at <MathView math="T_H" /></div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">AE at <MathView math="T_H" /></div>
         </div>
-        <div className="p-3 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
-          <div className="text-[10px] font-mono text-slate-600 dark:text-slate-400 uppercase font-semibold">Final Avail. Energy</div>
-          <div className="text-base font-bold font-mono text-cyan-600 dark:text-cyan-400">
+        <div className="p-3.5 bg-slate-50 dark:bg-slate-950/70 rounded-xl border border-slate-200 dark:border-slate-800">
+          <div className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Final Avail. Energy</div>
+          <div className="text-lg sm:text-xl font-bold font-mono text-cyan-600 dark:text-cyan-400 mt-1">
             {ae_final.toFixed(1)} kJ
           </div>
-          <div className="text-[10px] text-slate-600 dark:text-slate-400">AE at <MathView math="T_L" /></div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">AE at <MathView math="T_L" /></div>
         </div>
       </div>
 
-      {/* Key Takeaway Box */}
-      <div className="bg-amber-50/70 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3.5">
-        <h5 className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider mb-1.5">📝 Key Revision Takeaways</h5>
-        <ul className="text-xs text-amber-900 dark:text-amber-300 space-y-1 leading-relaxed">
-          <li>• <MathView math="\Delta S_{universe} = \Delta S_{system} + \Delta S_{surroundings} \ge 0" /> (Clausius Inequality for irreversible processes)</li>
-          <li>• Larger ΔT between reservoirs → more entropy generated → more exergy destroyed</li>
-          <li>• <strong>Gouy-Stodola Theorem</strong>: Lost work (Irreversibility) <MathView math="I = T_0 \cdot S_{gen}" /> — directly proportional to entropy generated</li>
-          <li>• To minimize irreversibility: reduce ΔT in heat exchangers, avoid friction, prevent unrestrained expansion</li>
-        </ul>
-      </div>
+      {/* Pedagogical Observe / Reason / Exam Takeaway Callout */}
+      <ObservationCallout
+        observe="As the temperature gap ΔT between the two reservoirs increases, the rate of entropy generation climbs steeply, and available exergy is permanently destroyed."
+        reason="Heat conduction across a finite, non-zero temperature difference is inherently irreversible. Because heat leaving the hot source at $T_H$ has a smaller entropy decrease ($-\frac{Q}{T_H}$) than the entropy increase when entering the cold sink ($+\frac{Q}{T_L}$), the universe always experiences a net positive entropy generation: $S_{gen} = Q\left(\frac{1}{T_L} - \frac{1}{T_H}\right) > 0$."
+        takeaway="Gouy-Stodola Theorem: Lost Work (Irreversibility) is strictly proportional to entropy generation: $I = W_{\text{lost}} = T_0 \cdot S_{\text{gen}}$. To preserve exergy in thermal machinery, minimize temperature differences across heat transfer interfaces."
+        governingEquation="S_{\text{gen}} = \Delta S_{\text{universe}} = Q\left(\frac{1}{T_L} - \frac{1}{T_H}\right) \ge 0 \quad \text{and} \quad I = T_0 \cdot S_{\text{gen}}"
+        stateValues={[
+          { label: 'S_gen', value: `${entropyGenerated.toFixed(3)}`, unit: 'kJ/K', highlight: true },
+          { label: 'Irreversibility (I)', value: `${exergyDestroyed.toFixed(1)}`, unit: 'kJ' },
+          { label: 'Lost Exergy', value: `${lossInAE.toFixed(1)}`, unit: 'kJ' },
+        ]}
+      />
+
+      {/* Standardized 5-Part Quick Revision Card */}
+      <RevisionCard
+        title="Entropy Generation & Gouy–Stodola Theorem"
+        badge="ENTROPY & EXERGY REVISION"
+        explanation="For any actual spontaneous process, the entropy of an isolated system (the thermodynamic universe) must always increase. The irreversibility (lost potential for useful work) is directly quantified by the Gouy–Stodola theorem."
+        equation="S_{\text{gen}} = \Delta S_{\text{sys}} + \Delta S_{\text{surr}} \ge 0 \quad \text{and} \quad I = \dot{W}_{\text{lost}} = T_0 \cdot S_{\text{gen}}"
+        secondaryEquation="S_{\text{gen}} = -\frac{Q}{T_H} + \frac{Q}{T_L} = Q\left(\frac{T_H - T_L}{T_H T_L}\right) > 0 \quad (T_H > T_L)"
+        specialCases={[
+          {
+            label: 'Reversible Process (Ideal Limit)',
+            condition: '\Delta T \to 0 \implies S_{\text{gen}} = 0',
+            result: 'When heat is exchanged across an infinitesimal temperature difference, entropy generation is zero ($I = 0$), preserving 100% of available exergy.',
+          },
+          {
+            label: 'Irreversible Heat Transfer',
+            condition: 'T_H > T_L \implies S_{\text{gen}} > 0',
+            result: 'Entropy is genuinely generated within the universe. Energy is fully conserved (1st Law), but its quality (exergy) is irreversibly degraded.',
+          },
+          {
+            label: 'Impossible Process',
+            condition: 'S_{\text{gen}} < 0 \implies \text{Violates 2nd Law}',
+            result: 'A process that decreases universe entropy without external work input is strictly impossible in nature.',
+          },
+        ]}
+        symbols={[
+          { symbol: 'S_{\text{gen}}', name: 'Entropy Generated', unit: 'kJ/K', description: 'Measure of internal and external process irreversibility' },
+          { symbol: 'I', name: 'Irreversibility / Lost Work', unit: 'kJ', description: 'Maximum theoretical useful work permanently forfeited: T0 · Sgen' },
+          { symbol: 'T_0', name: 'Dead State Environment Temp', unit: 'Kelvin [K]', description: 'Ambient environmental reference temperature (typically 298.15 K)' },
+          { symbol: 'Q', name: 'Heat Transferred Across ΔT', unit: 'kJ', description: 'Quantity of thermal energy transferred across the temperature gap' },
+        ]}
+        takeaway="Energy is conserved in ALL processes (First Law), but Exergy is destroyed in EVERY irreversible process (Second Law). Entropy generation is the sole thermodynamic metric that measures the irreversibility of a physical process."
+        validity="Applies to all closed and open thermodynamic processes. The Gouy-Stodola theorem holds for any control volume surrounded by a constant-temperature environmental dead state at T0."
+        variant="amber"
+      />
     </div>
   );
 };

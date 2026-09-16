@@ -63,12 +63,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-6 md:px-8 py-3 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-4 md:px-6 py-2.5 flex items-center justify-between gap-3">
       {/* Left Table of Contents toggle + title */}
       <div className="flex items-center gap-2.5 shrink-0">
         <button
           onClick={onToggleSidebar}
-          className={`p-2 rounded-xl border text-xs font-semibold flex items-center justify-center transition-all ${
+          className={`min-h-[44px] min-w-[44px] p-2.5 rounded-xl border text-sm font-semibold flex items-center justify-center transition-all ${
             isSidebarOpen
               ? 'bg-slate-900 border-slate-700 text-white hover:text-cyan-300 hover:bg-slate-800 shadow-xs'
               : 'bg-slate-900 border-slate-800 text-white hover:text-cyan-300 hover:bg-slate-800 shadow-xs'
@@ -77,27 +77,27 @@ export const Navbar: React.FC<NavbarProps> = ({
           aria-label={isSidebarOpen ? 'Hide Table of Contents' : 'Show Table of Contents'}
         >
           {isSidebarOpen ? (
-            <PanelLeftClose className="w-4 h-4 text-white" />
+            <PanelLeftClose className="w-5 h-5 text-white" />
           ) : (
-            <PanelLeftOpen className="w-4 h-4 text-white" />
+            <PanelLeftOpen className="w-5 h-5 text-white" />
           )}
         </button>
 
-        <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 font-mono pl-1">
+        <div className="hidden lg:flex items-center gap-2 text-sm text-slate-400 font-mono pl-1">
           <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
           <span className="font-semibold tracking-wide">THERMODYNAMICS</span>
         </div>
       </div>
 
       {/* Center Nav Items */}
-      <nav className="flex items-center gap-1.5 overflow-x-auto max-w-full py-1">
+      <nav className="flex items-center gap-2 overflow-x-auto max-w-full py-1">
         {navItems.map((item) => {
           const isActive = currentView === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onSelectView(item.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap border ${
+              className={`min-h-[44px] px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap border ${
                 isActive
                   ? 'nav-tab-active bg-teal-50 border-teal-500 text-teal-900 shadow-xs dark:bg-teal-500/15 dark:border-teal-500/60 dark:text-[#5EEAD4]'
                   : 'bg-transparent border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-[#F8FAFC] dark:hover:bg-slate-800/60'
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="md:hidden font-bold">{item.label.split(' ')[0]}</span>
               {item.badge && (
                 <span
-                  className={`text-[9px] px-1.5 py-0.2 rounded-md font-mono font-bold ${
+                  className={`text-[11px] px-1.5 py-0.5 rounded-md font-mono font-bold ${
                     isActive
                       ? 'bg-teal-200/80 text-teal-950 dark:bg-teal-950 dark:text-[#5EEAD4] dark:border dark:border-teal-500/30'
                       : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
@@ -126,7 +126,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="flex items-center gap-2 shrink-0">
         <button
           onClick={toggleFullscreen}
-          className={`p-2 rounded-xl border text-xs font-bold transition-all shadow-sm flex items-center justify-center ${
+          className={`min-h-[44px] min-w-[44px] p-2.5 rounded-xl border text-sm font-bold transition-all shadow-sm flex items-center justify-center ${
             isDark
               ? 'bg-slate-900/90 border-slate-700/80 text-slate-300 hover:text-white hover:bg-slate-800 hover:border-slate-600'
               : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900 shadow-slate-200'
@@ -143,7 +143,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <button
           onClick={toggleTheme}
-          className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-bold transition-all shadow-sm ${
+          className={`min-h-[44px] flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-bold transition-all shadow-sm ${
             isDark
               ? 'bg-slate-900/90 border-slate-700/80 text-amber-300 hover:bg-slate-800 hover:border-slate-600'
               : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-amber-600 shadow-slate-200'
@@ -154,7 +154,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {isDark ? (
             <>
               <Sun className="w-4 h-4 text-amber-400 animate-spin-slow" />
-              <span className="hidden sm:inline font-mono text-[11px] text-amber-300">Light</span>
+              <span className="hidden sm:inline font-mono text-xs text-amber-300">Light</span>
             </>
           ) : (
             <>

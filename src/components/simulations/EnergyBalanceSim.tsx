@@ -3,6 +3,8 @@ import { Flame, Zap, Activity, RotateCcw, ArrowRight, ArrowUpRight, ArrowDownRig
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, Cell } from 'recharts';
 import { MathView } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
+import { RevisionCard } from '../RevisionCard';
+import { ObservationCallout } from '../ObservationCallout';
 
 export const EnergyBalanceSim: React.FC = () => {
   const { isDark } = useTheme();
@@ -344,6 +346,70 @@ export const EnergyBalanceSim: React.FC = () => {
           <div className="text-[10px] text-slate-600 dark:text-slate-400">1st Law Satisfied</div>
         </div>
       </div>
+
+      {/* Pedagogical Observe / Reason / Takeaway Callout */}
+      <ObservationCallout
+        observe={`${heatQ > 0 ? `Heat of +${heatQ} kJ flows into the system across the boundary.` : heatQ < 0 ? `Heat of ${Math.abs(heatQ)} kJ is rejected to surroundings.` : 'System is thermally insulated (Q = 0 kJ).'} ${workW > 0 ? `Boundary work of +${workW} kJ is performed by the system on surroundings.` : workW < 0 ? `External shaft/piston work of ${Math.abs(workW)} kJ is done on the system.` : 'Boundary is rigid (W = 0 kJ).'}`}
+        reason={`According to the First Law of Thermodynamics for a closed stationary control mass, energy cannot be created or destroyed. The net change in stored internal energy equals net heat added minus net work done: \\Delta U = Q - W = ${heatQ} - (${workW}) = ${deltaU} \\text{ kJ}.`}
+        takeaway="Sign convention is vital in thermodynamic accounting: Heat IN is positive (+Q), Work OUT is positive (+W). When work is done on the gas (-W), energy is transferred into the system, raising internal energy: ΔU = Q - (-W) = Q + |W|."
+        governingLaw="\Delta U = Q - W"
+        stateBadges={[
+          { label: 'Q (Heat)', value: `${heatQ > 0 ? '+' : ''}${heatQ} kJ`, color: heatQ >= 0 ? 'rose' : 'sky' },
+          { label: 'W (Work)', value: `${workW > 0 ? '+' : ''}${workW} kJ`, color: workW >= 0 ? 'emerald' : 'amber' },
+          { label: 'ΔU', value: `${deltaU > 0 ? '+' : ''}${deltaU} kJ`, color: deltaU >= 0 ? 'purple' : 'teal' },
+        ]}
+      />
+
+      {/* 5-Part Revision Card */}
+      <RevisionCard
+        title="First Law of Thermodynamics for Closed Systems"
+        subtitle="Conservation of energy for a stationary control mass undergoing boundary heat and work interactions"
+        equation="\Delta U = Q - W"
+        specialCases={[
+          {
+            name: "Adiabatic Process (Q = 0)",
+            formula: "\\Delta U = -W",
+            note: "Rigidly insulated boundary; expansion work (W > 0) directly depletes internal energy, while compression (W < 0) raises U."
+          },
+          {
+            name: "Isochoric Process (W = 0)",
+            formula: "\\Delta U = Q_v = m c_v \\Delta T",
+            note: "Constant volume container with rigid boundaries; 100% of heat input increases internal thermal energy."
+          },
+          {
+            name: "Isothermal Process (Ideal Gas, ΔU = 0)",
+            formula: "Q = W = m R T \\ln\\left(\\frac{V_2}{V_1}\\right)",
+            note: "For an ideal gas, internal energy depends solely on temperature U = U(T); isothermal implies ΔU = 0, so all heat input is converted to boundary work."
+          },
+          {
+            name: "Closed Cycle Process (\\oint dU = 0)",
+            formula: "W_{\\text{net}} = Q_{\\text{net}} = Q_{\\text{in}} - Q_{\\text{out}}",
+            note: "Because internal energy U is a state function, the cyclic integral \\oint dU = 0. Net work produced equals net heat absorbed."
+          }
+        ]}
+        parameters={[
+          {
+            symbol: "\\Delta U",
+            name: "Change in Internal Energy",
+            unit: "\\text{kJ}",
+            description: "Net microscopic energy stored in molecular kinetic translations, rotations, vibrations, and intermolecular potentials."
+          },
+          {
+            symbol: "Q",
+            name: "Heat Transfer",
+            unit: "\\text{kJ}",
+            description: "Thermal energy crossing the system boundary driven solely by a temperature difference (Positive for heat IN, negative for heat OUT)."
+          },
+          {
+            symbol: "W",
+            name: "Work Transfer",
+            unit: "\\text{kJ}",
+            description: "Macroscopic energy crossing boundary via force acting through displacement (Positive for work OUT by system, negative for work IN)."
+          }
+        ]}
+        takeaway="Internal energy U is a true thermodynamic state variable (exact differential dU), whereas heat (δQ) and work (δW) are path-dependent mechanisms of energy transfer in transit across boundaries."
+        conditionOfValidity="Applicable to any closed control mass (no mass crosses boundary) between initial and final equilibrium states where macroscopic changes in kinetic energy (ΔKE) and potential energy (ΔPE) are negligible."
+      />
     </div>
   );
 };

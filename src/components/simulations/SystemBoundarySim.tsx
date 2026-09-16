@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Flame, ArrowRight, Shield, Zap, Sparkles } from 'lucide-react';
-import { MathView } from '../MathView';
+import { MathView, MathText } from '../MathView';
 import { useTheme } from '../../context/ThemeContext';
 import { getCanvasTheme } from '../../utils/canvasTheme';
+import { RevisionCard } from '../RevisionCard';
+import { ObservationCallout } from '../ObservationCallout';
+import { useSimulationAnimation } from '../../utils/useSimulationAnimation';
 
 export const SystemBoundarySim: React.FC = () => {
   const { isDark } = useTheme();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { shouldAnimate } = useSimulationAnimation(containerRef);
   const [systemType, setSystemType] = useState<'closed' | 'open' | 'isolated'>('closed');
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [heatInput, setHeatInput] = useState<number>(50); // 0 to 100
@@ -266,35 +271,39 @@ export const SystemBoundarySim: React.FC = () => {
         25
       );
 
-      animationFrameId = requestAnimationFrame(render);
+      if (isPlaying && shouldAnimate) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    if (shouldAnimate) {
+      animationFrameId = requestAnimationFrame(render);
+    }
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, systemType, temperature, pistonPosition, heatInput, isDark]);
+  }, [isPlaying, shouldAnimate, systemType, temperature, pistonPosition, heatInput, isDark]);
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4">
+    <div ref={containerRef} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xs dark:shadow-xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-base font-bold text-slate-900 dark:text-white">Interactive Thermodynamic Systems & Boundaries</h4>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Visual particle dynamics, boundary displacement, and energy interactions</p>
+            <h4 className="card-heading text-slate-900 dark:text-white">Interactive Thermodynamic Systems & Boundaries</h4>
+            <p className="secondary-text text-slate-600 dark:text-slate-400">Visual particle dynamics, boundary displacement, and energy interactions</p>
           </div>
         </div>
 
         {/* System Selectors */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-950 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800">
           {(['closed', 'open', 'isolated'] as const).map((type) => (
             <button
               key={type}
               onClick={() => setSystemType(type)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${
+              className={`min-h-[40px] px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold capitalize transition-all ${
                 systemType === type
-                  ? 'bg-cyan-600 text-white shadow-sm dark:bg-cyan-500 dark:text-slate-950'
+                  ? 'bg-cyan-600 text-white shadow-xs dark:bg-cyan-500 dark:text-slate-950'
                   : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/50'
               }`}
             >
@@ -311,36 +320,36 @@ export const SystemBoundarySim: React.FC = () => {
 
       {/* Live Readout & Controls */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Mass Transfer (Δm)</span>
-          <div className="text-sm font-bold text-cyan-700 dark:text-cyan-400 flex items-center gap-2">
+        <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider">Mass Transfer (Δm)</span>
+          <div className="text-base font-bold text-cyan-700 dark:text-cyan-400 flex items-center gap-2 mt-0.5">
             {systemType === 'open' ? 'Permeable (ṁ > 0)' : 'Impermeable (m = Const)'}
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="secondary-text text-slate-500 dark:text-slate-400">
             {systemType === 'open' ? 'Mass crosses control surface' : 'Mass remains strictly fixed inside'}
           </p>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Energy Transfer (Q & W)</span>
-          <div className="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">
+        <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider">Energy Transfer (Q & W)</span>
+          <div className="text-base font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2 mt-0.5">
             {systemType === 'isolated' ? 'Zero (Q = 0, W = 0)' : `Active (T = ${temperature} K)`}
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="secondary-text text-slate-500 dark:text-slate-400">
             {systemType === 'isolated' ? 'Rigid insulated adiabatic wall' : 'Heat flux & displacement work allowed'}
           </p>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Real-World Analog</span>
-          <div className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+        <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800/80 space-y-1">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider">Real-World Analog</span>
+          <div className="text-base font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">
             {systemType === 'closed'
               ? 'Piston-Cylinder, Sealed Can'
               : systemType === 'open'
               ? 'Turbine, Nozzle, Compressor'
               : 'Thermos Flask, Universe'}
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="secondary-text text-slate-500 dark:text-slate-400">
             {systemType === 'closed' ? 'Control Mass approach' : systemType === 'open' ? 'Control Volume approach' : 'Perfect isolation'}
           </p>
         </div>
@@ -350,61 +359,99 @@ export const SystemBoundarySim: React.FC = () => {
       {systemType !== 'isolated' && (
         <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-200 dark:border-slate-800/80">
           <div className="flex items-center gap-3 flex-1 min-w-[240px]">
-            <Flame className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 shrink-0">Heat Supply (Q):</span>
+            <Flame className="w-5 h-5 text-orange-600 dark:text-orange-400 shrink-0" />
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 shrink-0">Heat Supply (Q):</span>
             <input
               type="range"
               min="0"
               max="100"
               value={heatInput}
               onChange={(e) => setHeatInput(Number(e.target.value))}
-              className="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500 border border-slate-300 dark:border-slate-600"
+              className="w-full h-8 py-2 bg-transparent appearance-none cursor-pointer accent-orange-500 touch-pan-y"
             />
-            <span className="text-xs font-mono font-bold text-orange-600 dark:text-orange-400 w-12 text-right">{heatInput}%</span>
+            <span className="text-sm font-mono font-bold text-orange-600 dark:text-orange-400 w-12 text-right">{heatInput}%</span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-sm"
+              className="w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-xs"
               title={isPlaying ? 'Pause simulation' : 'Play simulation'}
             >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
             </button>
             <button
               onClick={() => {
                 setHeatInput(50);
                 setIsPlaying(true);
               }}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-sm"
+              className="w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-xs"
               title="Reset"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-5 h-5" />
             </button>
           </div>
         </div>
       )}
 
-      {/* Key Takeaway Box */}
-      <div className="bg-emerald-50/70 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-3.5 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300">
-          <span>⚡</span> Quick Revision — System Boundary Classification
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Closed (Control Mass):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Mass fixed (<MathView math="\Delta m = 0" />), energy crosses boundary (<MathView math="Q, W \neq 0" />). Ex: Piston-cylinder without valves.</div>
-          </div>
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Open (Control Volume):</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Both mass and energy cross boundary (<MathView math="\Delta m \neq 0, \Delta E \neq 0" />). Ex: Turbines, nozzles, compressors.</div>
-          </div>
-          <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-emerald-100 dark:border-emerald-900/40">
-            <span className="font-bold text-slate-900 dark:text-slate-100">Isolated System:</span>
-            <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Neither mass nor energy crosses boundary (<MathView math="m, Q, W = 0" />). Rigid + adiabatic walls. Ex: Universe.</div>
-          </div>
-        </div>
-      </div>
+      {/* Pedagogical Observe / Reason / Exam Takeaway Callout */}
+      <ObservationCallout
+        observe={
+          systemType === 'closed'
+            ? 'Mass particles cannot cross the solid boundary (m = constant), but energy crosses freely via heat conduction through the wall and boundary work via the movable piston.'
+            : systemType === 'open'
+            ? 'Both mass particles and energy (heat and work) cross freely across the permeable control surface (inlet and exit ports).'
+            : 'Neither mass particles nor energy can penetrate the rigid, adiabatic outer boundary. Total energy and mass remain strictly constant.'
+        }
+        reason="System classification is defined by boundary permeability to mass and energy transfer. Real boundaries can be fixed or movable, real or imaginary, diathermal (heat permeable) or adiabatic (heat impermeable)."
+        takeaway="Closed System (Control Mass): $\Delta m = 0, Q \neq 0, W \neq 0$. Open System (Control Volume): $\Delta m \neq 0, \Delta E \neq 0$. Isolated System: $\Delta m = 0, Q = 0, W = 0$."
+        governingEquation="\text{Universe} = \text{System} + \text{Surroundings} \quad \text{and} \quad \Delta E_{\text{isolated}} = 0"
+        stateValues={[
+          { label: 'System Type', value: systemType.toUpperCase(), highlight: true },
+          { label: 'Mass Transfer', value: systemType === 'open' ? 'Permitted (Δm ≠ 0)' : 'Blocked (Δm = 0)' },
+          { label: 'Energy Transfer', value: systemType === 'isolated' ? 'Blocked (Q=0, W=0)' : 'Permitted (Q, W)' },
+        ]}
+      />
+
+      {/* Standardized 5-Part Quick Revision Card */}
+      <RevisionCard
+        title="Thermodynamic System Boundary Classification"
+        badge="BASIC CONCEPTS REVISION"
+        explanation="A thermodynamic system is a region in space or quantity of matter chosen for thermodynamic analysis. The boundary separating it from the external surroundings determines mass and energy permeability."
+        equation="\text{Universe} = \text{System} + \text{Surroundings} \quad \text{with} \quad \Delta E_{\text{univ}} = 0"
+        secondaryEquation="\text{Closed: } \Delta m = 0, \Delta E \neq 0 \quad | \quad \text{Open: } \Delta m \neq 0, \Delta E \neq 0 \quad | \quad \text{Isolated: } \Delta m = 0, \Delta E = 0"
+        specialCases={[
+          {
+            label: '1. Closed System (Control Mass)',
+            condition: '\Delta m = 0, \; Q \neq 0, \; W \neq 0',
+            result: 'Mass remains fixed. Energy crosses as heat or boundary work. Example: Gas sealed inside a piston-cylinder.',
+          },
+          {
+            label: '2. Open System (Control Volume)',
+            condition: '\Delta m \neq 0, \; \Delta E \neq 0',
+            result: 'Both fluid mass and energy flow across control surface. Example: Steam turbines, pumps, jet nozzles, boilers.',
+          },
+          {
+            label: '3. Isolated System',
+            condition: '\Delta m = 0, \; Q = 0, \; W = 0',
+            result: 'Rigid, impermeable, and perfectly adiabatic walls. Neither mass nor energy can cross. Example: The entire Universe.',
+          },
+          {
+            label: '4. Boundary Attributes',
+            condition: '\text{Diathermal vs Adiabatic}, \; \text{Rigid vs Movable}',
+            result: 'Diathermal walls allow heat ($Q \\neq 0$). Adiabatic walls block heat ($Q = 0$). Rigid walls block boundary work ($dV = 0 \\implies W = 0$).',
+          },
+        ]}
+        symbols={[
+          { symbol: 'm', name: 'System Mass', unit: 'kg', description: 'Quantity of matter enclosed within system boundary' },
+          { symbol: 'Q', name: 'Heat Transfer Across Boundary', unit: 'kJ', description: 'Energy driven across boundary by temperature difference' },
+          { symbol: 'W', name: 'Work Transfer Across Boundary', unit: 'kJ', description: 'Boundary displacement or shaft work transfer' },
+          { symbol: 'E', name: 'Total System Energy', unit: 'kJ', description: 'Sum of internal, kinetic, and potential energy: U + KE + PE' },
+        ]}
+        takeaway="Thermodynamic state is uniquely defined by intensive properties. A system is in complete thermodynamic equilibrium if and only if thermal ($T_1 = T_2$), mechanical ($P_1 = P_2$), and chemical ($\mu_1 = \mu_2$) equilibria are simultaneously satisfied."
+        validity="Fundamental thermodynamic definitions applicable across all classical thermodynamic systems and continuum mechanics."
+        variant="emerald"
+      />
     </div>
   );
 };
